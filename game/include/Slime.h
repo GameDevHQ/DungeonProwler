@@ -17,9 +17,9 @@ class Slime : public Enemy
 {
 public:
 
-	/**
-	 * Default constructor.
-	 */
-	Slime();
+    /**
+     * Default constructor.
+     */
+    Slime();
 };
 #endif

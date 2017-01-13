@@ -31,3 +31,4 @@
 # Folders
 .idea
 cmake-build-debug
+bin

@@ -4,9 +4,7 @@ std::map<std::string, std::pair<int, std::unique_ptr<sf::SoundBuffer>>> SoundBuf
 int SoundBufferManager::m_currentId = 0;
 
 // Default Constructor.
-SoundBufferManager::SoundBufferManager()
-{
-}
+SoundBufferManager::SoundBufferManager() {}
 
 // Adds a sound to the manager, and returns its id in the map.
 int SoundBufferManager::AddSoundBuffer(std::string filePath)
@@ -44,4 +42,6 @@ sf::SoundBuffer& SoundBufferManager::GetSoundBuffer(int textureId)
 			return *it->second.second;
 		}
 	}
+
+    // TODO: Return dummy object if not found required sound
 }

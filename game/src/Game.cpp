@@ -1,4 +1,4 @@
-#include <math.h>
+#include <cmath>
 #include "PCH.h"
 #include "Game.h"
 
@@ -404,48 +404,52 @@ void Game::UpdateItems(sf::Vector2f playerPosition)
 		{
 			// Check what type of object it was.
 			switch (item.GetType())
-			{
-			case ITEM::GOLD:
-			{
-				// Get the amount of gold.
-				int goldValue = dynamic_cast<Gold&>(item).GetGoldValue();
+            {
+				case ITEM::GOLD:
+                {
+					// Get the amount of gold.
+					int goldValue = dynamic_cast<Gold &>(item).GetGoldValue();
 
-				// Add to the gold total.
-				m_goldTotal += goldValue;
-			}
-			break;
+					// Add to the gold total.
+					m_goldTotal += goldValue;
+				}
+                break;
 
-			case ITEM::GEM:
-			{
-				// Get the score of the gem.
-				int scoreValue = dynamic_cast<Gem&>(item).GetScoreValue();
+				case ITEM::GEM:
+                {
+					// Get the score of the gem.
+					int scoreValue = dynamic_cast<Gem &>(item).GetScoreValue();
 
-				// Add to the score total
-				m_scoreTotal += scoreValue;
-			}
-			break;
+					// Add to the score total
+					m_scoreTotal += scoreValue;
+				}
+				break;
 
-			case ITEM::KEY:
-			{
-				// Unlock the door.
-				m_level.UnlockDoor();
+				case ITEM::KEY: {
+					// Unlock the door.
+					m_level.UnlockDoor();
 
-				// Set the key as collected.
-				m_keyUiSprite->setColor(sf::Color::White);
-			}
-			break;
+					// Set the key as collected.
+					m_keyUiSprite->setColor(sf::Color::White);
+				}
+				break;
 
-			case ITEM::POTION:
-			{
-				// . . .
-			}
-			break;
+				case ITEM::POTION:
+                {
+					// . . .
+				}
+				break;
 
-			case ITEM::HEART:
-				// Cast to heart and get health.
-				Heart& heart = dynamic_cast<Heart&>(item);
+				case ITEM::HEART:
+                {
+					// Cast to heart and get health.
+					Heart &heart = dynamic_cast<Heart &>(item);
+					m_player.SetHealth(m_player.GetHealth() + heart.GetHealth());
+				}
+                break;
 
-				m_player.SetHealth(m_player.GetHealth() + heart.GetHealth());
+                default:
+                    break;
 			}
 
 			// Finally, delete the object.
@@ -601,7 +605,7 @@ void Game::UpdateProjectiles(float timeDelta)
 // Calculates the distance between two given points.
 float Game::DistanceBetweenPoints(sf::Vector2f position1, sf::Vector2f position2)
 {
-	return (abs(sqrt(
+	return (std::abs(sqrt(
             ((position1.x - position2.x) * (position1.x - position2.x)) +
             ((position1.y - position2.y) * (position1.y - position2.y))
     )));

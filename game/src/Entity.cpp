@@ -1,3 +1,4 @@
+#include <cmath>
 #include "PCH.h"
 #include "Entity.h"
 
@@ -26,7 +27,7 @@ void Entity::Update(float timeDelta)
 
 	if ((m_velocity.x != 0) || (m_velocity.y != 0))
 	{
-		if (abs(m_velocity.x) > abs(m_velocity.y))
+		if (std::abs(m_velocity.x) > std::abs(m_velocity.y))
 		{
 			if (m_velocity.x <= 0)
 			{

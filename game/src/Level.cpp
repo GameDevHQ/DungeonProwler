@@ -229,9 +229,8 @@ bool Level::LoadLevelFromFile(std::string fileName)
 					m_doorTileIndices = sf::Vector2i(i, 0);
 				}
 			}
-
-			// Read end line char.
-			file.get();
+			file.get(); // Carriage return
+            file.get(); // New line
 		}
 
 		file.close(); //closing the file

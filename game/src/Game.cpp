@@ -215,14 +215,53 @@ void Game::LoadUI()
 // Populate the level with items.
 void Game::PopulateLevel()
 {
-    // Create a gold object.
-    std::unique_ptr<Gold> gold = std::make_unique<Gold>();
+    // Find all attainable locations on the level
+    sf::Vector2f window_position = m_level.GetPosition();
+    std::vector<sf::Vector2f> available_positions = std::vector<sf::Vector2f>();
+    for (int i = 0; i < GRID_WIDTH; i++)
+    {
+        for (int j = 0; j < GRID_HEIGHT; j++)
+        {
+            Tile* cell = this->m_level.GetTile(i, j);
+            if (cell && this->m_level.IsFloor(i, j))
+            {
+                float x = window_position.x + (TILE_SIZE * cell->rowIndex);
+                float y = window_position.y + (TILE_SIZE * cell->columnIndex);
+                available_positions.push_back(sf::Vector2f(x, y));
+            }
+        }
+    }
 
-    // Set the gold position.
-    gold->SetPosition(sf::Vector2f(m_screenCenter.x - 50.f, m_screenCenter.y));
+    // Generate items at any possible location
+    int items = std::rand() % 6 + 10;
+    for (int i = 0; i < items; i++)
+    {
+        int itemIndex = std::rand() % 2;
+        std::unique_ptr<Item> item;
+        // Chose a random item from the available set
+        switch (itemIndex)
+        {
+            case 0:
+                item = std::make_unique<Gold>();
+                break;
+            case 1:
+                item = std::make_unique<Gem>();
+                break;
+            default:
+                break;
+        }
 
-    // Add the gold item to our collection of all objects.
-    m_items.push_back(std::move(gold));
+        // Get a random position
+        unsigned long index = std::rand() % available_positions.size();
+        sf::Vector2f position = available_positions[index];
+
+        // Set the item position.
+        item->SetPosition(sf::Vector2f(position.x, position.y));
+        available_positions.erase(available_positions.begin() + index);
+
+        // Add the item to our collection of all objects.
+        m_items.push_back(std::move(item));
+    }
 }
 
 // Returns the running state of the game.

@@ -22,8 +22,8 @@ unsigned int mix(unsigned long a, unsigned long b, unsigned long c)
 int main()
 {
     // Set a random seed.
-    unsigned int seed = mix(clock(), time(NULL), 1024);
-    srand(42);
+    unsigned int seed = mix(clock(), static_cast<unsigned long>(time(NULL)), 1024);
+    srand(seed);
 
     // Create the main game object.
     sf::RenderWindow window(sf::VideoMode::getDesktopMode(), "Dungeon prowler", sf::Style::Fullscreen);

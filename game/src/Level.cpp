@@ -244,13 +244,12 @@ bool Level::LoadLevelFromFile(std::string fileName)
         file.close(); //closing the file
 
         // Create torches at specific locations.
-        sf::Vector2i locations[5];
-
-        locations[0] = { m_origin.x + (3 * TILE_SIZE) + (TILE_SIZE / 2), m_origin.y + (9 * TILE_SIZE) + (TILE_SIZE / 2) };
-        locations[1] = { m_origin.x + (7 * TILE_SIZE) + (TILE_SIZE / 2), m_origin.y + (7 * TILE_SIZE) + (TILE_SIZE / 2) };
-        locations[2] = { m_origin.x + (11 * TILE_SIZE) + (TILE_SIZE / 2), m_origin.y + (11 * TILE_SIZE) + (TILE_SIZE / 2) };
-        locations[3] = { m_origin.x + (13 * TILE_SIZE) + (TILE_SIZE / 2), m_origin.y + (15 * TILE_SIZE) + (TILE_SIZE / 2) };
-        locations[4] = { m_origin.x + (15 * TILE_SIZE) + (TILE_SIZE / 2), m_origin.y + (3 * TILE_SIZE) + (TILE_SIZE / 2) };
+        sf::Vector2f locations[5];
+        locations[0] = GetActualTileLocation(3, 9);
+        locations[1] = GetActualTileLocation(7, 7);
+        locations[2] = GetActualTileLocation(11, 11);
+        locations[3] = GetActualTileLocation(13, 15);
+        locations[4] = GetActualTileLocation(15, 3);
 
         // Spawn torches.
         for (int i = 0; i < 5; ++i)

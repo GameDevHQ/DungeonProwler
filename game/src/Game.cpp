@@ -529,7 +529,7 @@ void Game::UpdateEnemies(sf::Vector2f playerPosition, float timeDelta)
                         position.x += std::rand() % 31 - 15;
                         position.y += std::rand() % 31 - 15;
 
-                        int itemType = std::rand() % 3;
+                        int itemType = std::rand() % 2;
                         SpawnItem(static_cast<ITEM>(itemType), position);
                     }
 

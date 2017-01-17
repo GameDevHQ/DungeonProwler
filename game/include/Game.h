@@ -119,7 +119,7 @@ private:
 
 	/**
 	 * Updates all projectiles in the level.
-	 * @param timeDetla The amount of time that has passed since the last update.
+	 * @param timeDelta The amount of time that has passed since the last update.
 	 */
 	void UpdateProjectiles(float timeDelta);
 

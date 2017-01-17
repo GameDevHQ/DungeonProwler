@@ -142,6 +142,13 @@ int Level::GetRoomNumber() const
     return m_roomNumber;
 }
 
+// Get the reachable tiles on the level.
+const std::vector<sf::Vector2f> Level::GetReachableTiles() const
+{
+    return m_reachableTiles;
+}
+
+
 // Checks if a given tile is valid.
 bool Level::TileIsValid(int column, int row)
 {
@@ -251,6 +258,8 @@ bool Level::LoadLevelFromFile(std::string fileName)
             torch->SetPosition(sf::Vector2f(static_cast<float>(locations[i].x), static_cast<float>(locations[i].y)));
             m_torches.push_back(torch);
         }
+
+        m_reachableTiles = GetFloorLocations();
     }
     else
     {
@@ -346,4 +355,22 @@ std::vector<sf::Vector2f> Level::GetFloorLocations()
         }
     }
     return available_locations;
+}
+
+
+// Returns a valid spawn location from the currently loaded level.
+sf::Vector2f Level::GetRandomSpawnLocation()
+{
+    // Select a random floor tile.
+    if (m_reachableTiles.size() == 0)
+    {
+        m_reachableTiles = GetFloorLocations();
+    }
+    unsigned long index = std::rand() % m_reachableTiles.size();
+    sf::Vector2f tileLocation(m_reachableTiles[index]);
+
+    // Create a random offset.
+    tileLocation.x += std::rand() % 21 - 10;
+    tileLocation.y += std::rand() % 21 - 10;
+    return tileLocation;
 }

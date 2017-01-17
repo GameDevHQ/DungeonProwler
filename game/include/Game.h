@@ -131,7 +131,7 @@ private:
      * @param itemType Item what need to generated on the level.
      * @param position The position of the item within the level.
      */
-	void SpawnItem(ITEM itemType, sf::Vector2f position);
+	void SpawnItem(ITEM itemType, sf::Vector2f position = { -1.f, -1.f });
 
     /**
      * Spawns a given enemy in the level.

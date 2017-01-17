@@ -133,6 +133,12 @@ public:
 	 */
 	int GetRoomNumber() const;
 
+    /**
+     * Get the reachable tiles on the level.
+     * @return Reachable tiles.
+     */
+    const std::vector<sf::Vector2f> GetReachableTiles() const;
+
 	/**
 	 * Gets the size of the level in terms of tiles.
 	 * @return The size of the level grid.
@@ -193,6 +199,12 @@ public:
      * @return Vector with locations for all existing floor tiles.
      */
     std::vector<sf::Vector2f> GetFloorLocations();
+
+    /**
+     * Get random reachable location
+     * @return Returns a valid spawn location from the currently loaded level.
+     */
+    sf::Vector2f GetRandomSpawnLocation();
 private:
 
 	/**
@@ -214,6 +226,13 @@ private:
 	 * A vector off all the sprites in the level.
 	 */
 	std::vector<sf::Sprite> m_tileSprites;
+
+
+    /**
+     *  A vector with locations of all reachable tiles on the map.
+     *  Internally used for random objects spawning.
+     */
+    std::vector<sf::Vector2f> m_reachableTiles;
 
 	/**
 	 * The position of the level relative to the window.

@@ -212,13 +212,9 @@ void Game::LoadUI()
     m_uiSprites.push_back(m_staminaStatSprite);
 }
 
-// TODO: Refactoring Populate level - "Spawn" methods should include random generating position
 // Populate the level with items.
 void Game::PopulateLevel()
 {
-    // Get all reachable locations on the level
-    std::vector<sf::Vector2f> available_locations = this->m_level.GetFloorLocations();
-
     for (int i = 0; i < MAX_ITEM_SPAWN_COUNT; i++)
     {
         if (std::rand() % 2)
@@ -226,15 +222,8 @@ void Game::PopulateLevel()
             // Choose a random item type.
             int itemType = std::rand() % static_cast<int>(ITEM::COUNT);
 
-            // And a random reachable position.
-            unsigned long index = std::rand() % available_locations.size();
-            sf::Vector2f position = available_locations[index];
-
             // Spawn an item in the certain position.
-            SpawnItem(static_cast<ITEM>(itemType), position);
-
-            // Remove a used position from the collection. Just avoid any collisions.
-            available_locations.erase(available_locations.begin() + index);
+            SpawnItem(static_cast<ITEM>(itemType));
         }
     }
 
@@ -245,14 +234,8 @@ void Game::PopulateLevel()
             // Choose a random enemy type.
             int enemyType = std::rand() % static_cast<int>(ENEMY::COUNT);
 
-            // And a random reachable position.
-            unsigned long index = std::rand() % available_locations.size();
-            sf::Vector2f position = available_locations[index];
-
-            SpawnEnemy(static_cast<ENEMY>(enemyType), position);
-
-            // Remove a used position from the collection. Just avoid any collisions.
-            available_locations.erase(available_locations.begin() + index);
+            // Spawn an enemy.
+            SpawnEnemy(static_cast<ENEMY>(enemyType));
         }
     }
 
@@ -814,6 +797,16 @@ void Game::Draw(float timeDelta)
 // Spawns a given item in the level.
 void Game::SpawnItem(ITEM itemType, sf::Vector2f position)
 {
+    // Choose a random, unused spawn location.
+    sf::Vector2f spawnLocation;
+    if ((position.x >= 0.f) || (position.y >= 0.f))
+    {
+        spawnLocation = position;
+    }
+    else {
+        spawnLocation = m_level.GetRandomSpawnLocation();
+    }
+
     std::unique_ptr<Item> item;
     // Check which type of object is being spawned.
     switch (itemType)
@@ -838,7 +831,7 @@ void Game::SpawnItem(ITEM itemType, sf::Vector2f position)
             break;
     }
     // Set the item position.
-    item->SetPosition(position);
+    item->SetPosition(spawnLocation);
 
     // Add the item to the list of all items.
     m_items.push_back(std::move(item));
@@ -847,6 +840,17 @@ void Game::SpawnItem(ITEM itemType, sf::Vector2f position)
 // Spawns a given enemy in the level.
 void Game::SpawnEnemy(ENEMY enemyType, sf::Vector2f position)
 {
+    // Spawn location of enemy.
+    sf::Vector2f spawnLocation;
+    // Choose a random, unused spawn location.
+    if ((position.x >= 0.f) || (position.y >= 0.f))
+    {
+        spawnLocation = position;
+    }
+    else {
+        spawnLocation = m_level.GetRandomSpawnLocation();
+    }
+
     // Create the enemy.
     std::unique_ptr<Enemy> enemy;
     switch (enemyType)
@@ -862,7 +866,7 @@ void Game::SpawnEnemy(ENEMY enemyType, sf::Vector2f position)
             break;
     }
     // Set spawn position.
-    enemy->SetPosition(position);
+    enemy->SetPosition(spawnLocation);
 
     // Add to list of all enemies.
     m_enemies.push_back(std::move(enemy));

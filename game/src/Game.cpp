@@ -215,38 +215,26 @@ void Game::LoadUI()
 // Populate the level with items.
 void Game::PopulateLevel()
 {
-    // Find all attainable locations on the level
+    // Get all reachable locations on the level
     std::vector<sf::Vector2f> available_locations = this->m_level.GetFloorLocations();
 
-    // Generate items at any possible location
-    int items = std::rand() % 6 + 25;
-    for (int i = 0; i < items; i++)
+    for (int i = 0; i < MAX_ITEM_SPAWN_COUNT; i++)
     {
-        int itemIndex = std::rand() % 2;
-        std::unique_ptr<Item> item;
-        // Chose a random item from the available set
-        switch (itemIndex)
+        if (std::rand() % 2)
         {
-            case 0:
-                item = std::make_unique<Gold>();
-                break;
-            case 1:
-                item = std::make_unique<Gem>();
-                break;
-            default:
-                break;
+            // Choose a random item type.
+            int itemType = std::rand() % static_cast<int>(ITEM::COUNT);
+
+            // And a random reachable position.
+            unsigned long index = std::rand() % available_locations.size();
+            sf::Vector2f position = available_locations[index];
+
+            // Spawn an item in the certain position.
+            SpawnItem(static_cast<ITEM>(itemType), position);
+
+            // Remove a used position from the collection. Just avoid item collisions.
+            available_locations.erase(available_locations.begin() + index);
         }
-
-        // Get a random position
-        unsigned long index = std::rand() % available_locations.size();
-        sf::Vector2f position = available_locations[index];
-
-        // Set the item position.
-        item->SetPosition(sf::Vector2f(position.x, position.y));
-        available_locations.erase(available_locations.begin() + index);
-
-        // Add the item to our collection of all objects.
-        m_items.push_back(std::move(item));
     }
 }
 
@@ -801,4 +789,37 @@ void Game::Draw(float timeDelta)
 
     // Present the back-buffer to the screen.
     m_window.display();
+}
+
+
+void Game::SpawnItem(ITEM itemType, sf::Vector2f position)
+{
+    std::unique_ptr<Item> item;
+    // Check which type of object is being spawned.
+    switch (itemType)
+    {
+        case ITEM::POTION:
+            item = std::make_unique<Potion>();
+            break;
+        case ITEM::GEM:
+            item = std::make_unique<Gem>();
+            break;
+        case ITEM::GOLD:
+            item = std::make_unique<Gold>();
+            break;
+        case ITEM::KEY:
+            item = std::make_unique<Key>();
+            break;
+        case ITEM::HEART:
+            item = std::make_unique<Heart>();
+            break;
+        default:
+            item = std::make_unique<Gem>();
+            break;
+    }
+    // Set the item position.
+    item->SetPosition(position);
+
+    // Add the item to the list of all items.
+    m_items.push_back(std::move(item));
 }

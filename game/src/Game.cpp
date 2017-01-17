@@ -216,24 +216,10 @@ void Game::LoadUI()
 void Game::PopulateLevel()
 {
     // Find all attainable locations on the level
-    sf::Vector2f window_position = m_level.GetPosition();
-    std::vector<sf::Vector2f> available_positions = std::vector<sf::Vector2f>();
-    for (int i = 0; i < GRID_WIDTH; i++)
-    {
-        for (int j = 0; j < GRID_HEIGHT; j++)
-        {
-            Tile* cell = this->m_level.GetTile(i, j);
-            if (cell && this->m_level.IsFloor(i, j))
-            {
-                float x = window_position.x + (TILE_SIZE * cell->rowIndex);
-                float y = window_position.y + (TILE_SIZE * cell->columnIndex);
-                available_positions.push_back(sf::Vector2f(x, y));
-            }
-        }
-    }
+    std::vector<sf::Vector2f> available_locations = this->m_level.GetFloorLocations();
 
     // Generate items at any possible location
-    int items = std::rand() % 6 + 10;
+    int items = std::rand() % 6 + 25;
     for (int i = 0; i < items; i++)
     {
         int itemIndex = std::rand() % 2;
@@ -252,12 +238,12 @@ void Game::PopulateLevel()
         }
 
         // Get a random position
-        unsigned long index = std::rand() % available_positions.size();
-        sf::Vector2f position = available_positions[index];
+        unsigned long index = std::rand() % available_locations.size();
+        sf::Vector2f position = available_locations[index];
 
         // Set the item position.
         item->SetPosition(sf::Vector2f(position.x, position.y));
-        available_positions.erase(available_positions.begin() + index);
+        available_locations.erase(available_locations.begin() + index);
 
         // Add the item to our collection of all objects.
         m_items.push_back(std::move(item));

@@ -180,6 +180,19 @@ public:
 	*/
 	int AddTile(std::string fileName, TILE tileType);
 
+    /**
+     * Get an absolute location for a tile.
+     * @param columnIndex The column that the tile is in.
+	 * @param rowIndex The row that the tile is in.
+     * @return Vector with `x` and `y` attributes.
+     */
+    const sf::Vector2f GetActualTileLocation(int columnIndex, int rowIndex) const;
+
+    /**
+     * Get a vector with locations for all existing floor tiles on the level.
+     * @return Vector with locations for all existing floor tiles.
+     */
+    std::vector<sf::Vector2f> GetFloorLocations();
 private:
 
 	/**

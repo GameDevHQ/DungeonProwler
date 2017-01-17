@@ -319,3 +319,31 @@ void Level::Draw(sf::RenderWindow& window, float timeDelta)
         torch->Draw(window, timeDelta);
     }
 }
+
+// Get an absolute location for a specified tile.
+const sf::Vector2f Level::GetActualTileLocation(int columnIndex, int rowIndex) const
+{
+    sf::Vector2f location;
+    location.x = m_origin.x + (TILE_SIZE * columnIndex) + (TILE_SIZE / 2);
+    location.y = m_origin.y + (TILE_SIZE * rowIndex) + (TILE_SIZE / 2);
+    return location;
+}
+
+// Get a vector with locations for all existing floor tiles on the level.
+std::vector<sf::Vector2f> Level::GetFloorLocations()
+{
+    std::vector<sf::Vector2f> available_locations = std::vector<sf::Vector2f>();
+    for (int i = 0; i < GRID_WIDTH; i++)
+    {
+        for (int j = 0; j < GRID_HEIGHT; j++)
+        {
+            Tile* cell = GetTile(i, j);
+            if (cell && IsFloor(i, j))
+            {
+                const sf::Vector2f location = GetActualTileLocation(i, j);
+                available_locations.push_back(location);
+            }
+        }
+    }
+    return available_locations;
+}

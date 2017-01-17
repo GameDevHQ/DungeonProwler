@@ -15,6 +15,7 @@ m_doorTileIndices({ 0, 0 })
 {
     // Load all tiles.
     AddTile("../resources/tiles/spr_tile_floor.png", TILE::FLOOR);
+    AddTile("../resources/tiles/spr_tile_floor_alt.png", TILE::FLOOR_ALT);
 
     AddTile("../resources/tiles/spr_tile_wall_top.png", TILE::WALL_TOP);
     AddTile("../resources/tiles/spr_tile_wall_top_left.png", TILE::WALL_TOP_LEFT);

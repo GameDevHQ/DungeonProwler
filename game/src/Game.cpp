@@ -59,6 +59,9 @@ void Game::Initialize()
 
     // Populate level.
     PopulateLevel();
+
+    // Generate some random FLOOR_ALT tiles on the level.
+    SpawnRandomTiles(TILE::FLOOR_ALT, MAX_FLOOR_ALT_COUNT);
 }
 
 // Constructs the grid of sprites that are used to draw the game light system.
@@ -870,4 +873,26 @@ void Game::SpawnEnemy(ENEMY enemyType, sf::Vector2f position)
 
     // Add to list of all enemies.
     m_enemies.push_back(std::move(enemy));
+}
+
+// Spawns a given number of a certain tile at random locations in the level.
+void Game::SpawnRandomTiles(TILE tileType, int count)
+{
+    // Loop the number of tiles we need.
+    for (int i = 0; i < count; i++)
+    {
+        // Declare the variables we need.
+        int columnIndex(0), rowIndex(0);
+
+        // Loop until we select a floor tile.
+        while (!m_level.IsFloor(columnIndex, rowIndex))
+        {
+            // Generate a random index for the row and column.
+            columnIndex = std::rand() % GRID_WIDTH;
+            rowIndex = std::rand() % GRID_HEIGHT;
+        }
+
+        // Now we change the selected tile.
+        m_level.SetTile(columnIndex, rowIndex, tileType);
+    }
 }

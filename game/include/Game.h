@@ -27,6 +27,7 @@ static float const MS_PER_STEP = 1.0f / FPS;		// Roughly (0.017) @ 60fps.
 
 static int const MAX_ITEM_SPAWN_COUNT = 50;
 static int const MAX_ENEMY_SPAWN_COUNT = 20;
+static int const MAX_FLOOR_ALT_COUNT = 15;
 
 
 class Game
@@ -138,7 +139,14 @@ private:
      * @param enemyType Enemy that should be generated on the level.
      * @param position The position of the enemy within the level.
      */
-    void SpawnEnemy(ENEMY enemyType, sf::Vector2f position);
+    void SpawnEnemy(ENEMY enemyType, sf::Vector2f position = { -1.f, -1.f });
+
+    /**
+     * Spawns a given number of a certain tile at random locations in the level.
+     * @param tileType Tile type that should be used for generating on the level.
+     * @param count The count of generated procedurally tiles.
+     */
+    void SpawnRandomTiles(TILE tileType, int count);
 private:
 	/**
 	 * The main application window.

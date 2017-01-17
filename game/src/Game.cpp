@@ -212,6 +212,7 @@ void Game::LoadUI()
     m_uiSprites.push_back(m_staminaStatSprite);
 }
 
+// TODO: Refactoring Populate level - "Spawn" methods should include random generating position
 // Populate the level with items.
 void Game::PopulateLevel()
 {
@@ -232,10 +233,29 @@ void Game::PopulateLevel()
             // Spawn an item in the certain position.
             SpawnItem(static_cast<ITEM>(itemType), position);
 
-            // Remove a used position from the collection. Just avoid item collisions.
+            // Remove a used position from the collection. Just avoid any collisions.
             available_locations.erase(available_locations.begin() + index);
         }
     }
+
+    for (int i = 0; i < MAX_ENEMY_SPAWN_COUNT; i++)
+    {
+        if (std::rand() % 2)
+        {
+            // Choose a random enemy type.
+            int enemyType = std::rand() % static_cast<int>(ENEMY::COUNT);
+
+            // And a random reachable position.
+            unsigned long index = std::rand() % available_locations.size();
+            sf::Vector2f position = available_locations[index];
+
+            SpawnEnemy(static_cast<ENEMY>(enemyType), position);
+
+            // Remove a used position from the collection. Just avoid any collisions.
+            available_locations.erase(available_locations.begin() + index);
+        }
+    }
+
 }
 
 // Returns the running state of the game.
@@ -791,7 +811,7 @@ void Game::Draw(float timeDelta)
     m_window.display();
 }
 
-
+// Spawns a given item in the level.
 void Game::SpawnItem(ITEM itemType, sf::Vector2f position)
 {
     std::unique_ptr<Item> item;
@@ -822,4 +842,28 @@ void Game::SpawnItem(ITEM itemType, sf::Vector2f position)
 
     // Add the item to the list of all items.
     m_items.push_back(std::move(item));
+}
+
+// Spawns a given enemy in the level.
+void Game::SpawnEnemy(ENEMY enemyType, sf::Vector2f position)
+{
+    // Create the enemy.
+    std::unique_ptr<Enemy> enemy;
+    switch (enemyType)
+    {
+        case ENEMY::SLIME:
+            enemy = std::make_unique<Slime>();
+            break;
+        case ENEMY::HUMANOID:
+            enemy = std::make_unique<Humanoid>();
+            break;
+        default:
+            enemy = std::make_unique<Slime>();
+            break;
+    }
+    // Set spawn position.
+    enemy->SetPosition(position);
+
+    // Add to list of all enemies.
+    m_enemies.push_back(std::move(enemy));
 }

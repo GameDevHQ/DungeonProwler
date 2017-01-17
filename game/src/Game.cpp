@@ -61,7 +61,8 @@ void Game::Initialize()
     PopulateLevel();
 
     // Generate some random FLOOR_ALT tiles on the level.
-    SpawnRandomTiles(TILE::FLOOR_ALT, MAX_FLOOR_ALT_COUNT);
+    int tiles_count = std::rand() % MAX_FLOOR_ALT_COUNT;
+    SpawnRandomTiles(TILE::FLOOR_ALT, tiles_count);
 }
 
 // Constructs the grid of sprites that are used to draw the game light system.
@@ -527,21 +528,9 @@ void Game::UpdateEnemies(sf::Vector2f playerPosition, float timeDelta)
                     {
                         position.x += std::rand() % 31 - 15;
                         position.y += std::rand() % 31 - 15;
-                        std::unique_ptr<Item> item;
 
-                        switch (std::rand() % 2)
-                        {
-                        case 0: // Spawn gold.
-                            item = std::make_unique<Gold>();
-                            break;
-
-                        case 1: // Spawn gem.
-                            item = std::make_unique<Gem>();
-                            break;
-                        }
-
-                        item->SetPosition(position);
-                        m_items.push_back(std::move(item));
+                        int itemType = std::rand() % 3;
+                        SpawnItem(static_cast<ITEM>(itemType), position);
                     }
 
                     if ((std::rand() % 5) == 0)			// 1 in 5 change of spawning health.

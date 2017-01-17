@@ -27,7 +27,7 @@ static float const MS_PER_STEP = 1.0f / FPS;		// Roughly (0.017) @ 60fps.
 
 static int const MAX_ITEM_SPAWN_COUNT = 50;
 static int const MAX_ENEMY_SPAWN_COUNT = 20;
-static int const MAX_FLOOR_ALT_COUNT = 15;
+static int const MAX_FLOOR_ALT_COUNT = 30;
 
 
 class Game

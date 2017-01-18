@@ -35,12 +35,22 @@ m_canTakeDamage(true)
     m_mana = m_maxMana = 50;
     m_speed = 200;
 
-    m_attack = 10;
-    m_defense = 10;
-    m_strength = 10;
-    m_dexterity = 10;
-    m_stamina = 10;
+    // Generate players stats randomly.
+    m_statPoints = 50;
+    float attackBias = std::rand() % 101;
+    float defenseBias = std::rand() % 101;
+    float strengthBias = std::rand() % 101;
+    float dexterityBias = std::rand() % 101;
+    float staminaBias = std::rand() % 101;
 
+    float total = attackBias + defenseBias + strengthBias + dexterityBias
+                  + staminaBias;
+
+    m_attack += m_statPoints * (attackBias / total);
+    m_defense += m_statPoints * (defenseBias / total);
+    m_strength += m_statPoints * (strengthBias / total);
+    m_dexterity += m_statPoints * (dexterityBias / total);
+    m_stamina += m_statPoints * (staminaBias / total);
 }
 
 // Updates the player object.

@@ -16,6 +16,7 @@
 #include "Level.h"
 #include "Projectile.h"
 
+
 class Player : public Entity
 {
 public:
@@ -121,5 +122,10 @@ private:
      * Can the player take damage.
      */
     bool m_canTakeDamage;
+
+    /**
+     * Count of stat points for the player.
+     */
+    int m_statPoints;
 };
 #endif

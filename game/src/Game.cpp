@@ -524,7 +524,31 @@ void Game::UpdateItems(sf::Vector2f playerPosition)
 
                 case ITEM::POTION:
                 {
-                    // . . .
+                    // Cast to position and get type.
+                    Potion& potion = dynamic_cast<Potion&>(item);
+                    POTION potionType = potion.GetPotionType();
+
+                    switch (potionType)
+                    {
+                        case POTION::ATTACK:
+                            m_player.SetAttack(m_player.GetAttack() + potion.GetAttack());
+                            break;
+                        case POTION::DEFENSE:
+                            m_player.SetDefense(m_player.GetDefense() + potion.GetDefense());
+                            break;
+                        case POTION::STRENGTH:
+                            m_player.SetStrength(m_player.GetStrength() + potion.GetStrength());
+                            break;
+                        case POTION::DEXTERITY:
+                            m_player.SetDexterity(m_player.GetDexterity() + potion.GetDexterity());
+                            break;
+                        case POTION::STAMINA:
+                            m_player.SetStamina(m_player.GetStamina() + potion.GetStamina());
+                            break;
+                        default:
+                            m_player.SetAttack(m_player.GetAttack() + potion.GetAttack());
+                            break;
+                    }
                 }
                 break;
 

@@ -51,6 +51,12 @@ public:
      */
     int GetStamina() const;
 
+    /**
+     * Gets the potion type.
+     * @return The potion type.
+     */
+    POTION GetPotionType() const;
+
 private:
 
     /**
@@ -77,5 +83,10 @@ private:
      * The stamina value of the potion.
      */
     int m_stamina;
+
+    /**
+     * The potion type.
+     */
+    POTION m_potionType;
 };
 #endif

@@ -107,4 +107,14 @@ enum class PLAYER_TRAIT {
     STAMINA,
     COUNT
 };
+
+// Potions.
+enum class POTION {
+    ATTACK,
+    DEFENSE,
+    STRENGTH,
+    DEXTERITY,
+    STAMINA,
+    COUNT
+};
 #endif

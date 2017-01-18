@@ -17,18 +17,23 @@ m_canTakeDamage(true)
     switch (m_class)
     {
         case PLAYER_CLASS::WARRIOR:
+            m_strength += std::rand() % 6 + 5;
             className = "warrior";
             break;
         case PLAYER_CLASS::MAGE:
+            m_defense = std::rand() % 6 + 5;
             className = "mage";
             break;
         case PLAYER_CLASS::ARCHER:
+            m_dexterity = std::rand() % 6 + 5;
             className = "archer";
             break;
         case PLAYER_CLASS::THIEF:
+            m_stamina = std::rand() % 6 + 5;
             className = "thief";
             break;
         default:
+            m_strength += std::rand() % 6 + 5;
             className = "warrior";
             break;
     }

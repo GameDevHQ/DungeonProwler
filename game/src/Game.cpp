@@ -128,7 +128,6 @@ void Game::ConstructLightGrid()
 // Loads and prepares all UI assets.
 void Game::LoadUI()
 {
-
     std::string playerClassName;
     switch (m_player.GetClass())
     {

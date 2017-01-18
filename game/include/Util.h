@@ -81,4 +81,12 @@ enum class VIEW {
 	UI,
 	COUNT
 };
+
+enum class PLAYER_CLASS {
+	WARRIOR,
+	MAGE,
+	ARCHER,
+	THIEF,
+	COUNT
+};
 #endif

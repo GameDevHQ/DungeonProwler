@@ -127,5 +127,10 @@ private:
      * Count of stat points for the player.
      */
     int m_statPoints;
+
+    /**
+    * The player's class.
+    */
+    PLAYER_CLASS m_class;
 };
 #endif

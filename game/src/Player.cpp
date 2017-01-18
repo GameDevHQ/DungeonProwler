@@ -350,7 +350,7 @@ void Player::SetRandomTraits()
             if (std::find(traitIndex.begin(), traitIndex.end(), index) == traitIndex.end()) break;
         }
 
-        traitIndex.push_back(index);
+        traitIndex[i] = index;
     }
 
     // Generate the traits.
@@ -384,4 +384,17 @@ void Player::SetRandomTraits()
                 break;
         }
     }
+}
+
+
+// Returns the number of traits the player has.
+int Player::GetTraitCount()
+{
+    return PLAYER_TRAIT_COUNT;
+}
+
+
+PLAYER_TRAIT* Player::GetTraits()
+{
+    return &m_traits[0];
 }

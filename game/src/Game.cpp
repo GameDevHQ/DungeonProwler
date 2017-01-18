@@ -251,6 +251,37 @@ void Game::LoadUI()
     m_staminaStatSprite->setOrigin(sf::Vector2f(16.f, 16.f));
     m_staminaStatSprite->setPosition(sf::Vector2f(m_screenCenter.x + 210.f, m_screenSize.y - 30.f));
     m_uiSprites.push_back(m_staminaStatSprite);
+
+    // Set player traits.
+    int traitCount = m_player.GetTraitCount();
+    for (int i = 0; i < traitCount; ++i)
+    {
+        switch (m_player.GetTraits()[i])
+        {
+            case PLAYER_TRAIT::ATTACK:
+                m_attackStatSprite->setTexture(TextureManager::GetTexture(m_attackStatTextureIDs[1]));
+                m_attackStatSprite->setScale(sf::Vector2f(1.2f, 1.2f));
+                break;
+            case PLAYER_TRAIT::DEFENSE:
+                m_defenseStatSprite->setTexture(TextureManager::GetTexture(m_defenseStatTextureIDs[1]));
+                m_defenseStatSprite->setScale(sf::Vector2f(1.2f, 1.2f));
+                break;
+            case PLAYER_TRAIT::STRENGTH:
+                m_strengthStatSprite->setTexture(TextureManager::GetTexture(m_strengthStatTextureIDs[1]));
+                m_strengthStatSprite->setScale(sf::Vector2f(1.2f, 1.2f));
+                break;
+            case PLAYER_TRAIT::DEXTERITY:
+                m_dexterityStatSprite->setTexture(TextureManager::GetTexture(m_dexterityStatTextureIDs[1]));
+                m_dexterityStatSprite->setScale(sf::Vector2f(1.2f, 1.2f));
+                break;
+            case PLAYER_TRAIT::STAMINA:
+                m_staminaStatSprite->setTexture(TextureManager::GetTexture(m_staminaStatTextureIDs[1]));
+                m_staminaStatSprite->setScale(sf::Vector2f(1.2f, 1.2f));
+                break;
+            default:
+                break;
+        }
+    }
 }
 
 // Populate the level with items.

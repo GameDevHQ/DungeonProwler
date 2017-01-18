@@ -91,6 +91,18 @@ public:
      * @return The player's class.
      */
     PLAYER_CLASS GetClass() const;
+
+    /**
+     * Get the number of traits the player has.
+     * @return The number of traits the player has.
+     */
+    int GetTraitCount();
+
+    /**
+    * Gets the players current traits.
+    * @return The players two current traits.
+    */
+    PLAYER_TRAIT* GetTraits();
 private:
 
     /**

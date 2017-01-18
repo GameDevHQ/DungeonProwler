@@ -14,6 +14,12 @@
 #include "Entity.h"
 #include "Level.h"
 
+static const int ENEMY_MAX_DAMAGE = 25;
+static const float ENEMY_DEXTERITY_DAMAGE_SCALE = 0.025f;
+static const float ENEMY_ATTACK_DAMAGE_SCALE = 0.15f;
+static const float ENEMY_TAKEN_DAMAGE_REDUCTION_SCALE = 0.15f;
+
+
 class Enemy : public Entity
 {
 public:
@@ -33,5 +39,11 @@ public:
 	 * @return True if the enemy is dead.
 	 */
 	bool IsDead();
+
+	/**
+     * Calculate an amount of damage to an enemy.
+     * @return Dealt damage to an enemy.
+     */
+	int CalculateDamage();
 };
 #endif

@@ -256,7 +256,8 @@ bool Player::CanTakeDamage()
 // Apply the given amount of damage to the player.
 void Player::Damage(int damage)
 {
-    m_health -= damage;
+    int applied_damage = static_cast<int>(damage - (PLAYER_TAKEN_DAMAGE_REDUCTION_SCALE * m_defense));
+    m_health -= applied_damage > 0 ? applied_damage : 0;
 
     if (m_health < 0)
     {
@@ -394,7 +395,18 @@ int Player::GetTraitCount()
 }
 
 
+// Gets the players current traits.
 PLAYER_TRAIT* Player::GetTraits()
 {
     return &m_traits[0];
+}
+
+
+// Calculate an amount of damage to an enemy.
+int Player::CalculateDamage()
+{
+    float damage_scale(1.f);
+    damage_scale += PLAYER_DEXTERITY_DAMAGE_SCALE * m_dexterity;
+    float damage = (std::rand() % (PLAYER_MAX_DAMAGE + 1)) + (PLAYER_ATTACK_DAMAGE_SCALE * m_attack);
+    return static_cast<int>(damage * damage_scale);
 }

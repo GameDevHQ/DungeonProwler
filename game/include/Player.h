@@ -20,6 +20,10 @@
  * The number of traits that the player can have.
  */
 static const int PLAYER_TRAIT_COUNT = 2;
+static const int PLAYER_MAX_DAMAGE = 25;
+static const float PLAYER_DEXTERITY_DAMAGE_SCALE = 0.075f;
+static const float PLAYER_ATTACK_DAMAGE_SCALE = 0.1f;
+static const float PLAYER_TAKEN_DAMAGE_REDUCTION_SCALE = 0.05f;
 
 
 class Player : public Entity
@@ -103,6 +107,12 @@ public:
     * @return The players two current traits.
     */
     PLAYER_TRAIT* GetTraits();
+
+    /**
+     * Calculate an amount of damage to an enemy.
+     * @return Dealt damage to an enemy.
+     */
+    int CalculateDamage();
 private:
 
     /**

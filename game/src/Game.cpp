@@ -607,7 +607,7 @@ void Game::UpdateEnemies(sf::Vector2f playerPosition, float timeDelta)
                 projectilesIterator = m_playerProjectiles.erase(projectilesIterator);
 
                 // Damage the enemy.
-                enemy.Damage(25);
+                enemy.Damage(m_player.CalculateDamage());
 
                 // If the enemy is dead remove it.
                 if (enemy.IsDead())
@@ -670,7 +670,7 @@ void Game::UpdateEnemies(sf::Vector2f playerPosition, float timeDelta)
         {
             if (m_player.CanTakeDamage())
             {
-                m_player.Damage(10);
+                m_player.Damage(enemy.CalculateDamage());
             }
         }
     }

@@ -81,6 +81,11 @@ public:
      */
     void Damage(int damage);
 
+    /**
+     * Get an actual player's class.
+     * @return The player's class.
+     */
+    PLAYER_CLASS GetClass() const;
 private:
 
     /**

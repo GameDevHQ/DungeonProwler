@@ -318,3 +318,10 @@ void Player::SetHealth(int healthValue)
         m_health = m_maxHealth;
     }
 }
+
+
+// Returns the player's class.
+PLAYER_CLASS Player::GetClass() const
+{
+    return m_class;
+}

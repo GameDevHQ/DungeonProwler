@@ -38,7 +38,24 @@ void Game::Initialize()
     m_screenSize = m_window.getSize();
 
     // Load the correct projectile texture.
-    m_projectileTextureID = TextureManager::AddTexture("../resources/projectiles/spr_sword.png");
+    switch (m_player.GetClass())
+    {
+        case PLAYER_CLASS::ARCHER:
+            m_projectileTextureID = TextureManager::AddTexture("../resources/projectiles/spr_arrow.png");
+            break;
+        case PLAYER_CLASS::MAGE:
+            m_projectileTextureID = TextureManager::AddTexture("../resources/projectiles/spr_magic_ball.png");
+            break;
+        case PLAYER_CLASS::THIEF:
+            m_projectileTextureID = TextureManager::AddTexture("../resources/projectiles/spr_dagger.png");
+            break;
+        case PLAYER_CLASS::WARRIOR:
+            m_projectileTextureID = TextureManager::AddTexture("../resources/projectiles/spr_sword.png");
+            break;
+        default:
+            m_projectileTextureID = TextureManager::AddTexture("../resources/projectiles/spr_sword.png");
+            break;
+    }
 
     // Initialize the UI.
     LoadUI();

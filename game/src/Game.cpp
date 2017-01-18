@@ -128,9 +128,30 @@ void Game::ConstructLightGrid()
 // Loads and prepares all UI assets.
 void Game::LoadUI()
 {
+
+    std::string playerClassName;
+    switch (m_player.GetClass())
+    {
+        case PLAYER_CLASS::ARCHER:
+            playerClassName = "archer";
+            break;
+        case PLAYER_CLASS::MAGE:
+            playerClassName = "mage";
+            break;
+        case PLAYER_CLASS::THIEF:
+            playerClassName = "thief";
+            break;
+        case PLAYER_CLASS::WARRIOR:
+            playerClassName = "warrior";
+            break;
+        default:
+            playerClassName = "warrior";
+            break;
+    }
+
     // Initialize the player ui texture and sprite.
     m_playerUiSprite = std::make_shared<sf::Sprite>();
-    m_playerUiSprite->setTexture(TextureManager::GetTexture(TextureManager::AddTexture("../resources/ui/spr_warrior_ui.png")));
+    m_playerUiSprite->setTexture(TextureManager::GetTexture(TextureManager::AddTexture("../resources/ui/spr_" + playerClassName + "_ui.png")));
     m_playerUiSprite->setPosition(sf::Vector2f(45.f, 45.f));
     m_playerUiSprite->setOrigin(sf::Vector2f(30.f, 30.f));
     m_uiSprites.push_back(m_playerUiSprite);

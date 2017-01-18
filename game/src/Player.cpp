@@ -1,3 +1,4 @@
+#include <algorithm>
 #include "PCH.h"
 #include "Player.h"
 
@@ -80,6 +81,9 @@ m_canTakeDamage(true)
     m_strength += m_statPoints * (strengthBias / total);
     m_dexterity += m_statPoints * (dexterityBias / total);
     m_stamina += m_statPoints * (staminaBias / total);
+
+    // Set random traits.
+    SetRandomTraits();
 }
 
 // Updates the player object.
@@ -329,4 +333,55 @@ void Player::SetHealth(int healthValue)
 PLAYER_CLASS Player::GetClass() const
 {
     return m_class;
+}
+
+
+// Chooses random traits for the character.
+void Player::SetRandomTraits()
+{
+    // Local vector that storing random indices for PLAYER_TRAIT enum.
+    std::vector<int> traitIndex(PLAYER_TRAIT_COUNT, -1);
+    for (int i = 0; i < PLAYER_TRAIT_COUNT; ++i)
+    {
+        int index(0);
+        while (true)
+        {
+            index = std::rand() % static_cast<int>(PLAYER_TRAIT::COUNT);
+            if (std::find(traitIndex.begin(), traitIndex.end(), index) == traitIndex.end()) break;
+        }
+
+        traitIndex.push_back(index);
+    }
+
+    // Generate the traits.
+    for (int i = 0; i < PLAYER_TRAIT_COUNT; ++i)
+    {
+        m_traits[i] = static_cast<PLAYER_TRAIT>(traitIndex[i]);
+    }
+
+    // Action the traits.
+    for (PLAYER_TRAIT trait : m_traits)
+    {
+        switch (trait)
+        {
+            case PLAYER_TRAIT::ATTACK:
+                m_attack += std::rand() % 6 + 5;
+                break;
+            case PLAYER_TRAIT::DEFENSE:
+                m_defense += std::rand() % 6 + 5;
+                break;
+            case PLAYER_TRAIT::STRENGTH:
+                m_strength += std::rand() % 6 + 5;
+                break;
+            case PLAYER_TRAIT::DEXTERITY:
+                m_dexterity += std::rand() % 6 + 5;
+                break;
+            case PLAYER_TRAIT::STAMINA:
+                m_stamina += std::rand() % 6 + 5;
+                break;
+            default:
+                m_defense += std::rand() % 6 + 5;
+                break;
+        }
+    }
 }

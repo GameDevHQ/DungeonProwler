@@ -16,6 +16,11 @@
 #include "Level.h"
 #include "Projectile.h"
 
+/**
+ * The number of traits that the player can have.
+ */
+static const int PLAYER_TRAIT_COUNT = 2;
+
 
 class Player : public Entity
 {
@@ -96,6 +101,10 @@ private:
      */
     bool CausesCollision(sf::Vector2f movement, Level& level);
 
+    /**
+     * Chooses PLAYER_TRAIT_COUNT random traits for the character.
+     */
+    void SetRandomTraits();
 private:
 
     /**
@@ -134,8 +143,13 @@ private:
     int m_statPoints;
 
     /**
-    * The player's class.
-    */
+     * The player's class.
+     */
     PLAYER_CLASS m_class;
+
+    /**
+     * An array containing the character's traits.
+     */
+    PLAYER_TRAIT m_traits[PLAYER_TRAIT_COUNT];
 };
 #endif

@@ -82,11 +82,22 @@ enum class VIEW {
 	COUNT
 };
 
+// Player classes.
 enum class PLAYER_CLASS {
 	WARRIOR,
 	MAGE,
 	ARCHER,
 	THIEF,
 	COUNT
+};
+
+// Player traits.
+enum class PLAYER_TRAIT {
+    ATTACK,
+    DEFENSE,
+    STRENGTH,
+    DEXTERITY,
+    STAMINA,
+    COUNT
 };
 #endif

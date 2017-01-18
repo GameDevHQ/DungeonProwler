@@ -35,6 +35,13 @@ enum class ENEMY {
 	COUNT
 };
 
+// Enemy humanoid types.
+enum class HUMANOID {
+	GOBLIN,
+	SKELETON,
+	COUNT
+};
+
 // Animation states.
 enum class ANIMATION_STATE {
 	WALK_UP,

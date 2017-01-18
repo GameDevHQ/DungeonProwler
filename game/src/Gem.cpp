@@ -8,7 +8,7 @@ Gem::Gem()
 	SetSprite(TextureManager::GetTexture(TextureManager::AddTexture("../resources/loot/gem/spr_pickup_gem.png")), false, 8, 12);
 
 	// Set the value of the gem.
-	m_scoreValue = 50;
+	m_scoreValue = std::rand() % 100;
 
 	// Set the item type.
 	m_type = ITEM::GEM;

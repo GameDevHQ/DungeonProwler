@@ -117,4 +117,18 @@ enum class POTION {
     STAMINA,
     COUNT
 };
+
+// Colors provided by SFML.
+enum class COLOR {
+	BLACK,
+	WHITE,
+	RED,
+	GREEN,
+	BLUE,
+	YELLOW,
+	MAGENTA,
+	CYAN,
+	TRANSPARENT,
+	COUNT
+};
 #endif

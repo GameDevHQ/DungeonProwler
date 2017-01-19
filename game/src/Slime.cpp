@@ -16,4 +16,14 @@ Slime::Slime()
 
     // Set initial sprite.
     SetSprite(TextureManager::GetTexture(m_textureIDs[static_cast<int>(ANIMATION_STATE::WALK_DOWN)]), false, 8, 12);
+
+    // Set a random color for the slime sprite.
+    sf::Uint8 r, g, b, a;
+    r = static_cast<sf::Uint8>(std::rand() % 256);
+    g = static_cast<sf::Uint8>(std::rand() % 256);
+    b = static_cast<sf::Uint8>(std::rand() % 256);
+    a = static_cast<sf::Uint8>((std::rand() % 156) + 100);
+
+    sf::Color color(r, g, b, a);
+    m_sprite.setColor(color);
 }

@@ -374,3 +374,15 @@ sf::Vector2f Level::GetRandomSpawnLocation()
     tileLocation.y += std::rand() % 21 - 10;
     return tileLocation;
 }
+
+// Sets the overlay color of the level tiles.
+void Level::SetColor(sf::Color tileColor)
+{
+    for (int i = 0; i < GRID_WIDTH; ++i)
+    {
+        for (int j = 0; j < GRID_HEIGHT; ++j)
+        {
+            m_grid[i][j].sprite.setColor(tileColor);
+        }
+    }
+}

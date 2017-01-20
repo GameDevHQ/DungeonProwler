@@ -1,6 +1,7 @@
 #include "PCH.h"
 #include "Humanoid.h"
 
+// TODO: Implement procedurally armor generation for enemies
 // Default constructor.
 Humanoid::Humanoid()
 {

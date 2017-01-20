@@ -205,6 +205,12 @@ public:
      * @return Returns a valid spawn location from the currently loaded level.
      */
     sf::Vector2f GetRandomSpawnLocation();
+
+    /**
+      * Sets the overlay color of the level tiles.
+      * @param tileColor The new tile overlay color
+      */
+	void SetColor(sf::Color tileColor);
 private:
 
 	/**

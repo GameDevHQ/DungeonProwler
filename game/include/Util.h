@@ -131,4 +131,13 @@ enum class COLOR {
 	TRANSPARENT,
 	COUNT
 };
+
+// Music tracks.
+enum class MUSIC_TRACK {
+    ALT_1,
+    ALT_2,
+    ALT_3,
+    ALT_4,
+    COUNT
+};
 #endif

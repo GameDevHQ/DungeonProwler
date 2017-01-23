@@ -347,5 +347,10 @@ private:
 	 * A vector of all ui sprites.
 	 */
 	std::vector<std::shared_ptr<sf::Sprite>> m_uiSprites;
+
+	/**
+	 * The main music.
+	 */
+	sf::Music m_music;
 };
 #endif

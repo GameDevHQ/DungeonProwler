@@ -29,6 +29,13 @@ m_levelWasGenerated(false)
 
     // Create the game font.
     m_font.loadFromFile("../resources/fonts/PexicoRegular.otf");
+
+    // Setup the main game music.
+    int trackIndex = (std::rand() % static_cast<int>(MUSIC_TRACK::COUNT)) + 1;
+
+    // Load the music track.
+    m_music.openFromFile("../resources/music/msc_main_track_" + std::to_string(trackIndex) + ".wav");
+    m_music.play();
 }
 
 // Initializes the game.

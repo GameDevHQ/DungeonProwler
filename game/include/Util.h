@@ -138,6 +138,8 @@ enum class MUSIC_TRACK {
     ALT_2,
     ALT_3,
     ALT_4,
+    ALT_5,
+    ALT_6,
     COUNT
 };
 #endif

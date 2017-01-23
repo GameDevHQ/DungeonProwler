@@ -87,6 +87,36 @@ void Game::Initialize()
     // Generate some random FLOOR_ALT tiles on the level.
     int tiles_count = std::rand() % MAX_FLOOR_ALT_COUNT;
     SpawnRandomTiles(TILE::FLOOR_ALT, tiles_count);
+
+    // Load all game sounds.
+    int soundBufferId;
+
+    // Load torch sound.
+    soundBufferId = SoundBufferManager::AddSoundBuffer("../resources/sounds/snd_fire.wav");
+    m_fireSound.setBuffer(SoundBufferManager::GetSoundBuffer(soundBufferId));
+    m_fireSound.setLoop(true);
+    m_fireSound.setVolume(10);
+    m_fireSound.play();
+
+    // Load enemy die sound.
+    soundBufferId = SoundBufferManager::AddSoundBuffer("../resources/sounds/snd_enemy_dead.wav");
+    m_enemyDieSound.setBuffer(SoundBufferManager::GetSoundBuffer(soundBufferId));
+
+    // Load gem pickup sound.
+    soundBufferId = SoundBufferManager::AddSoundBuffer("../resources/sounds/snd_gem_pickup.wav");
+    m_gemPickupSound.setBuffer(SoundBufferManager::GetSoundBuffer(soundBufferId));
+
+    // Load coin pickup sound.
+    soundBufferId = SoundBufferManager::AddSoundBuffer("../resources/sounds/snd_coin_pickup.wav");
+    m_coinPickupSound.setBuffer(SoundBufferManager::GetSoundBuffer(soundBufferId));
+
+    // Load key pickup sound.
+    soundBufferId = SoundBufferManager::AddSoundBuffer("../resources/sounds/snd_key_pickup.wav");
+    m_keyPickupSound.setBuffer(SoundBufferManager::GetSoundBuffer(soundBufferId));
+
+    // Load player hit sound.
+    soundBufferId = SoundBufferManager::AddSoundBuffer("../resources/sounds/snd_player_hit.wav");
+    m_playerHitSound.setBuffer(SoundBufferManager::GetSoundBuffer(soundBufferId));
 }
 
 // Constructs the grid of sprites that are used to draw the game light system.
@@ -507,6 +537,9 @@ void Game::UpdateItems(sf::Vector2f playerPosition)
 
                     // Add to the gold total.
                     m_goldTotal += goldValue;
+
+                    // Play gold collect sound effect
+                    m_coinPickupSound.play();
                 }
                 break;
 
@@ -517,6 +550,9 @@ void Game::UpdateItems(sf::Vector2f playerPosition)
 
                     // Add to the score total
                     m_scoreTotal += scoreValue;
+
+                    // Play the gem pickup sound
+                    m_gemPickupSound.play();
                 }
                 break;
 
@@ -526,6 +562,9 @@ void Game::UpdateItems(sf::Vector2f playerPosition)
 
                     // Set the key as collected.
                     m_keyUiSprite->setColor(sf::Color::White);
+
+                    // Play the key pickup sound
+                    m_keyPickupSound.play();
                 }
                 break;
 
@@ -656,6 +695,9 @@ void Game::UpdateEnemies(sf::Vector2f playerPosition, float timeDelta)
 
                     // Since the enemy is dead we no longer need to check projectiles.
                     projectilesIterator = m_playerProjectiles.end();
+
+                    // Play the sound for died enemy.
+                    m_enemyDieSound.play();
                 }
             }
             else
@@ -678,6 +720,9 @@ void Game::UpdateEnemies(sf::Vector2f playerPosition, float timeDelta)
             if (m_player.CanTakeDamage())
             {
                 m_player.Damage(enemy.CalculateDamage());
+
+                // Play the sound for a hitting the player.
+                m_playerHitSound.play();
             }
         }
     }

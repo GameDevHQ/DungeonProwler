@@ -17,4 +17,4 @@ Features
 
 Thanks
 ------
-- [Eric Skiff](http://ericskiff.com/) for awesome music tracks.
+- [Eric Skiff](http://ericskiff.com/) for awesome music tracks [by CC Attribution License]

@@ -18,7 +18,7 @@ Features
 Thanks
 ------
 - [Eric Skiff](http://ericskiff.com/) for awesome music tracks [by CC Attribution License]
-- [Freesound](www.freesound.org) for the following sounds (located in `resources/ambient` folder):
+- [Freesound](https://www.freesound.org) for the following sounds (located in `resources/ambient` folder):
   - "owl.wav" by [AndrewJonesFoto](https://www.freesound.org/people/AndrewJonesFoto/) [by CC Attribution License]
   - "Water Drip Loop [mono]" by [D W](http://www.freesound.org/people/D%20W/) [by CC Attribution License]
   - "Ambience, Night Wildlife, A.wav" by [InspectorJ](https://www.freesound.org/people/InspectorJ/) [by CC Attribution License]

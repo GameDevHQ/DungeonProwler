@@ -95,12 +95,15 @@ void Game::Initialize()
     soundBufferId = SoundBufferManager::AddSoundBuffer("../resources/sounds/snd_fire.wav");
     m_fireSound.setBuffer(SoundBufferManager::GetSoundBuffer(soundBufferId));
     m_fireSound.setLoop(true);
-    m_fireSound.setVolume(10);
+    m_fireSound.setMinDistance(80.f);
+    m_fireSound.setAttenuation(5.f);
     m_fireSound.play();
 
     // Load enemy die sound.
     soundBufferId = SoundBufferManager::AddSoundBuffer("../resources/sounds/snd_enemy_dead.wav");
     m_enemyDieSound.setBuffer(SoundBufferManager::GetSoundBuffer(soundBufferId));
+    m_enemyDieSound.setMinDistance(80.f);
+    m_enemyDieSound.setAttenuation(5.f);
 
     // Load gem pickup sound.
     soundBufferId = SoundBufferManager::AddSoundBuffer("../resources/sounds/snd_gem_pickup.wav");
@@ -429,6 +432,9 @@ void Game::Update(float timeDelta)
             // Store the player position as it's used many times.
             sf::Vector2f playerPosition = m_player.GetPosition();
 
+            // Move the audio listener to the players location.
+            sf::Listener::setPosition(playerPosition.x, playerPosition.y, 0.f);
+
             // If the player is attacking create a projectile.
             if (m_player.IsAttacking())
             {
@@ -494,15 +500,27 @@ void Game::UpdateLight(sf::Vector2f playerPosition)
         // If there are torches.
         if (!torches->empty())
         {
+            // Get the first torch by default as nearest. Use it as initial for search the nearest.
+            std::shared_ptr<Torch> nearestTorch = torches->front();
+            float lowestDistanceToPlayer = DistanceBetweenPoints(playerPosition, nearestTorch->GetPosition());
+
             // Update the light surrounding each torch.
             for (std::shared_ptr<Torch> torch : *torches)
             {
-                // If the light tile is within range of the torch.
+                // Calculate the distance to the player.
                 distance = DistanceBetweenPoints(sprite.getPosition(), torch->GetPosition());
+
                 if (distance < 100.f)
                 {
                     // Edit its alpha.
                     tileAlpha -= (tileAlpha - ((tileAlpha / 100.f) * distance)) * torch->GetBrightness();
+                }
+
+                // Set as nearest torch if it so.
+                if (distance < lowestDistanceToPlayer)
+                {
+                    lowestDistanceToPlayer = distance;
+                    nearestTorch = torch;
                 }
             }
 
@@ -511,6 +529,8 @@ void Game::UpdateLight(sf::Vector2f playerPosition)
             {
                 tileAlpha = 0;
             }
+
+            m_fireSound.setPosition(nearestTorch->GetPosition().x, nearestTorch->GetPosition().y, 0.0f);
         }
 
         // Set the sprite transparency.
@@ -701,7 +721,7 @@ void Game::UpdateEnemies(sf::Vector2f playerPosition, float timeDelta)
                     projectilesIterator = m_playerProjectiles.end();
 
                     // Play the sound for died enemy.
-                    PlaySound(m_enemyDieSound);
+                    PlaySound(m_enemyDieSound, enemy.GetPosition());
                 }
             }
             else
@@ -1041,6 +1061,9 @@ void Game::PlaySound(sf::Sound& sound, sf::Vector2f position)
     // Generate and set a random pitch.
     float pitch = (rand() % 11 + 95) / 100.f;
     sound.setPitch(pitch);
+
+    // Set the position of the sound.
+    sound.setPosition(position.x, position.y, 0.f);
 
     // Play the sound.
     sound.play();

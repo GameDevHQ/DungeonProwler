@@ -14,3 +14,7 @@ Features
 - Generating a range of game items
 - Choosing a player class, its characteristics and sprites
 - Generating random traits for a player
+
+Thanks
+------
+- [Eric Skiff](http://ericskiff.com/) for awesome music tracks.

@@ -124,6 +124,28 @@ void Game::Initialize()
     soundBufferId = SoundBufferManager::AddSoundBuffer("../resources/sounds/snd_player_hit.wav");
     m_playerHitSound.setBuffer(SoundBufferManager::GetSoundBuffer(soundBufferId));
     m_playerHitSound.setRelativeToListener(true);
+
+    // Load and play ambient sounds
+    for(int i = 0; i < AMBIENT_SOUNDS_COUNT; ++i)
+    {
+        int soundIndex = (std::rand() % static_cast<int>(AMBIENT_SOUND ::COUNT)) + 1;
+
+        std::string soundPath = "../resources/ambient/level_track_" + std::to_string(soundIndex) + ".wav";
+        soundBufferId = SoundBufferManager::AddSoundBuffer(soundPath);
+        auto sound = std::make_shared<sf::Sound>(SoundBufferManager::GetSoundBuffer(soundBufferId));
+
+        sound->setRelativeToListener(true);
+        sound->setLoop(true);
+        sound->setMinDistance(80.f);
+        sound->setAttenuation(5.f);
+        sound->setVolume(75);
+
+        sf::Vector2f position = m_level.GetRandomSpawnLocation();
+        sound->setPosition(position.x, position.y, 0.f);
+
+        sound->play();
+        m_ambientSounds.push_back(sound);
+    }
 }
 
 // Constructs the grid of sprites that are used to draw the game light system.

@@ -29,6 +29,8 @@ static int const MAX_ITEM_SPAWN_COUNT = 50;
 static int const MAX_ENEMY_SPAWN_COUNT = 20;
 static int const MAX_FLOOR_ALT_COUNT = 30;
 
+static int const AMBIENT_SOUNDS_COUNT = 3;
+
 
 class Game
 {
@@ -387,5 +389,11 @@ private:
      * Player hit sound.
      */
     sf::Sound m_playerHitSound;
+
+    /**
+     * Ambient sound effects.
+     */
+
+    std::vector<std::shared_ptr<sf::Sound>> m_ambientSounds;
 };
 #endif

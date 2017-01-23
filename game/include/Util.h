@@ -142,4 +142,12 @@ enum class MUSIC_TRACK {
     ALT_6,
     COUNT
 };
+
+// Ambient sound effects
+enum class AMBIENT_SOUND {
+    OWL_HOOT,
+    WATER_DRIP,
+    CRICKETS,
+    COUNT
+};
 #endif

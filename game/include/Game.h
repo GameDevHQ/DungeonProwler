@@ -147,6 +147,11 @@ private:
      * @param count The count of generated procedurally tiles.
      */
     void SpawnRandomTiles(TILE tileType, int count);
+
+    /**
+    * Plays the given sound effect, with randomized parameters./
+    */
+    void PlaySound(sf::Sound& sound, sf::Vector2f position = { 0.f, 0.f });
 private:
 	/**
 	 * The main application window.

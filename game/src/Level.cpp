@@ -386,3 +386,18 @@ void Level::SetColor(sf::Color tileColor)
         }
     }
 }
+
+// Resets the A* data of all tiles.
+void Level::ResetNodes()
+{
+    for(int i = 0; i < GRID_WIDTH; ++i)
+    {
+        for (int j = 0; j < GRID_WIDTH; ++j)
+        {
+            m_grid[i][j].parentNode = nullptr;
+            m_grid[i][j].G = 0;
+            m_grid[i][j].H = 0;
+            m_grid[i][j].F = 0;
+        }
+    }
+}

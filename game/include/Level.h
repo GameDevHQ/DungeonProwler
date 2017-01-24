@@ -207,10 +207,15 @@ public:
     sf::Vector2f GetRandomSpawnLocation();
 
     /**
-      * Sets the overlay color of the level tiles.
-      * @param tileColor The new tile overlay color
-      */
+     * Sets the overlay color of the level tiles.
+     * @param tileColor The new tile overlay color
+     */
 	void SetColor(sf::Color tileColor);
+
+	/**
+     * Resets the A* data of all level tiles.
+     */
+	void ResetNodes();
 private:
 
 	/**

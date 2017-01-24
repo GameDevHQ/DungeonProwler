@@ -14,6 +14,8 @@ Features
 - Generating a range of game items
 - Choosing a player class, its characteristics and sprites
 - Generating random traits for a player
+- Altering existing sound effects
+- Generating game behavior (AI)
 
 Thanks
 ------

@@ -154,6 +154,11 @@ private:
     * Plays the given sound effect, with randomized parameters./
     */
     void PlaySound(sf::Sound& sound, sf::Vector2f position = { 0.f, 0.f });
+
+    /**
+     * Generates a level goal.
+     */
+    void GenerateLevelGoal();
 private:
 	/**
 	 * The main application window.
@@ -399,5 +404,30 @@ private:
     * The last tile that the player was on.
     */
 	Tile* m_playerPreviousTile;
+
+    /**
+    * The value of gold remaining for the current goal.
+    */
+    int m_goldGoal;
+
+    /**
+     * The value of gems remaining for the current goal.
+     */
+    int m_gemGoal;
+
+    /**
+     * The number of kills remaining for the current goal.
+     */
+    int m_killGoal;
+
+    /**
+     * A string describing the current level goal.
+     */
+    sf::String m_goalString;
+
+    /**
+     * A boolean denoting if a goal is currently active.
+     */
+    bool m_activeGoal;
 };
 #endif

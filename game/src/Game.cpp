@@ -13,7 +13,12 @@ m_screenCenter({ 0, 0 }),
 m_scoreTotal(0),
 m_goldTotal(0),
 m_projectileTextureID(0),
-m_levelWasGenerated(false)
+m_levelWasGenerated(false),
+m_killGoal(0),
+m_goldGoal(0),
+m_gemGoal(0),
+m_goalString(""),
+m_activeGoal(false)
 {
     // Enable VSync.
     m_window.setVerticalSyncEnabled(true);
@@ -83,6 +88,9 @@ void Game::Initialize()
 
     // Populate level.
     PopulateLevel();
+
+    // Generate the level goal.
+    GenerateLevelGoal();
 
     // Generate some random FLOOR_ALT tiles on the level.
     int tiles_count = std::rand() % MAX_FLOOR_ALT_COUNT;
@@ -502,6 +510,27 @@ void Game::Update(float timeDelta)
                     }
                 }
             }
+
+            // Check if we have completed an active goal.
+            if (m_activeGoal)
+            {
+                if ((m_gemGoal <= 0) && (m_goldGoal <= 0) && (m_killGoal <= 0))
+                {
+                    m_scoreTotal += std::rand() % 1001 + 1000;
+                    m_activeGoal = false;
+                }
+                else {
+                    std::ostringstream ss;
+
+                    if (m_goldGoal > 0)
+                        ss << "Current Goal: Collect " << m_goldGoal << " gold" << "." << std::endl;
+                    else if (m_gemGoal > 0)
+                        ss << "Current Goal: Collect " << m_gemGoal << " gem" << "." << std::endl;
+                    else if (m_killGoal > 0)
+                        ss << "Current Goal: Kill " << m_killGoal << " enemies" << "." << std::endl;
+                    m_goalString = ss.str();
+                }
+            }
         }
     }
     break;
@@ -601,18 +630,29 @@ void Game::UpdateItems(sf::Vector2f playerPosition)
                     // Add to the gold total.
                     m_goldTotal += goldValue;
 
+                    // Check if we have an active level goal.
+                    if (m_activeGoal)
+                    {
+                        m_goldGoal -= goldValue;
+                    }
+
                     // Play gold collect sound effect
                     PlaySound(m_coinPickupSound);
                 }
                 break;
 
-                case ITEM::GEM:
-                {
+                case ITEM::GEM: {
                     // Get the score of the gem.
                     int scoreValue = dynamic_cast<Gem &>(item).GetScoreValue();
 
                     // Add to the score total
                     m_scoreTotal += scoreValue;
+
+                    // Check if we have an active level goal.
+                    if (m_activeGoal)
+                    {
+                        --m_gemGoal;
+                    }
 
                     // Play the gem pickup sound
                     PlaySound(m_gemPickupSound);
@@ -755,6 +795,12 @@ void Game::UpdateEnemies(sf::Vector2f playerPosition, float timeDelta)
                     // Delete enemy.
                     enemyIterator = m_enemies.erase(enemyIterator);
                     enemyWasDeleted = true;
+
+                    // If we have an active goal decrement killGoal.
+                    if (m_activeGoal)
+                    {
+                        --m_killGoal;
+                    }
 
                     // Since the enemy is dead we no longer need to check projectiles.
                     projectilesIterator = m_playerProjectiles.end();
@@ -981,6 +1027,12 @@ void Game::Draw(float timeDelta)
 
         m_manaBarSprite->setTextureRect(sf::IntRect(0, 0, (213.f / m_player.GetMaxMana()) * m_player.GetMana(), 8));
         m_window.draw(*m_manaBarSprite);
+
+        // Draw the level goal if active.
+        if (m_activeGoal)
+        {
+            DrawString(m_goalString, sf::Vector2f(m_window.getSize().x / 2, m_window.getSize().y - 75), 30);
+        }
     }
     break;
 
@@ -1106,4 +1158,45 @@ void Game::PlaySound(sf::Sound& sound, sf::Vector2f position)
 
     // Play the sound.
     sound.play();
+}
+
+
+void Game::GenerateLevelGoal()
+{
+    std::ostringstream ss;
+
+    // Reset our goal variables.
+    m_killGoal = 0;
+    m_goldGoal = 0;
+    m_gemGoal = 0;
+
+    // Choose which type of goal is to be generated.
+    int goalType = rand() % 3;
+    switch (goalType)
+    {
+        // Kill X enemies
+        case 0:
+            m_killGoal = rand() % 6 + 5;
+            ss << "Current Goal: Kill " << m_killGoal << " enemies" << "." << std::endl;
+            break;
+
+        // Collect X Gold
+        case 1:
+            m_goldGoal = rand() % 51 + 50;
+            ss << "Current Goal: Collect " << m_goldGoal << " gold" << "." << std::endl;
+            break;
+
+        // Collect X Gems
+        case 2:
+            m_gemGoal = rand() % 6 + 5;
+            ss << "Current Goal: Collect " << m_gemGoal << " gems" << "." << std::endl;
+            break;
+
+        default:
+            break;
+    }
+
+    // Set the goal as active.
+    m_activeGoal = true;
+    m_goalString = ss.str();
 }

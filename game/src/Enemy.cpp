@@ -130,21 +130,17 @@ void Enemy::UpdatePathfinding(Level &level, sf::Vector2f playerPosition)
         std::vector<Tile*> adjacentTiles;
         Tile* node;
 
-        // Top.
-        node = level.GetTile(currentNode->columnIndex, currentNode->rowIndex - 1);
-        if ((node != nullptr) && (level.IsFloor(*node))) adjacentTiles.push_back(node);
-
-        // Right.
-        node = level.GetTile(currentNode->columnIndex + 1, currentNode->rowIndex);
-        if ((node != nullptr) && (level.IsFloor(*node))) adjacentTiles.push_back(node);
-
-        // Bottom.
-        node = level.GetTile(currentNode->columnIndex, currentNode->rowIndex + 1);
-        if ((node != nullptr) && (level.IsFloor(*node))) adjacentTiles.push_back(node);
-
-        // Left.
-        node = level.GetTile(currentNode->columnIndex - 1, currentNode->rowIndex);
-        if ((node != nullptr) && (level.IsFloor(*node))) adjacentTiles.push_back(node);
+        for (int i = -1; i <= 1; i++)
+        {
+            for (int j = -1; j <= 1; j++)
+            {
+                node = level.GetTile(currentNode->columnIndex + i, currentNode->rowIndex + j);
+                if ((node != nullptr) && (level.IsFloor(*node)) && (node != currentNode))
+                {
+                    adjacentTiles.push_back(node);
+                }
+            }
+        }
 
         // For all adjacent nodes.
         for (Tile* adjacentNode: adjacentTiles)

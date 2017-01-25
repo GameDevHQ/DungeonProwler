@@ -483,8 +483,25 @@ void Game::Update(float timeDelta)
             // Update all projectiles.
             UpdateProjectiles(timeDelta);
 
-            // Venter the view.
+            // Center the view.
             m_views[static_cast<int>(VIEW::MAIN)].setCenter(playerPosition);
+
+            // Check if the player has moved grid square.
+            Tile* playerCurrentTile = m_level.GetTile(playerPosition);
+            if (m_playerPreviousTile != playerCurrentTile)
+            {
+                // Store the new tile.
+                m_playerPreviousTile = playerCurrentTile;
+
+                // Update path finding for all enemies if within range of the player.
+                for (const auto& enemy : m_enemies)
+                {
+                    if (DistanceBetweenPoints(enemy->GetPosition(), playerPosition) < 150.f)
+                    {
+                        enemy->UpdatePathfinding(m_level, playerPosition);
+                    }
+                }
+            }
         }
     }
     break;

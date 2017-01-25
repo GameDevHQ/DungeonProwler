@@ -393,7 +393,11 @@ private:
     /**
      * Ambient sound effects.
      */
-
     std::vector<std::shared_ptr<sf::Sound>> m_ambientSounds;
+
+	/**
+    * The last tile that the player was on.
+    */
+	Tile* m_playerPreviousTile;
 };
 #endif

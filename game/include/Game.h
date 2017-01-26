@@ -120,8 +120,9 @@ private:
 	 * Updates all enemies in the level.
 	 * @param playerPosition The position of the players within the level.
 	 * @param timeDelta The amount of time that has passed since the last update.
+	 * @param level Current level of the game.
 	 */
-	void UpdateEnemies(sf::Vector2f playerPosition, float timeDelta);
+	void UpdateEnemies(sf::Vector2f playerPosition, float timeDelta, Level &level);
 
 	/**
 	 * Updates all projectiles in the level.

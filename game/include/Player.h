@@ -114,15 +114,6 @@ public:
      */
     int CalculateDamage();
 private:
-
-    /**
-     * Checks if the given movement will result in a collision.
-     * @param movement The movement to check.
-     * @param level A reference to the level object.
-     * @return True if the given movement will result in a collision.
-     */
-    bool CausesCollision(sf::Vector2f movement, Level& level);
-
     /**
      * Chooses PLAYER_TRAIT_COUNT random traits for the character.
      */

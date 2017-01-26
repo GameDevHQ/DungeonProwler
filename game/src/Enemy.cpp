@@ -2,6 +2,13 @@
 #include "PCH.h"
 #include "Enemy.h"
 
+
+/*
+ * TODO: Добавить столкновение со стенками для врагов как у игрока (см. CausesCollision)
+ * TODO: При рассчете A* просчитать дистанцию Манхеттена между игроков и врагом. Если больше порога
+ *       некоторого, то останавливаем поиск + сбрасываем анимацию
+ */
+
 // Default constructor.
 Enemy::Enemy()
 {
@@ -19,8 +26,10 @@ Enemy::Enemy()
 
 
 // Overrides the default Update function of Entity.
-void Enemy::Update(float timeDelta)
+void Enemy::Update(float timeDelta, Level &level)
 {
+    sf::Vector2f previousPosition = m_position;
+
     // Move towards current target location.
     if (!m_targetPositions.empty())
     {
@@ -34,10 +43,28 @@ void Enemy::Update(float timeDelta)
         else
         {
             float length = std::sqrt(m_velocity.x * m_velocity.x + m_velocity.y * m_velocity.y);
-            m_velocity.x /= length;
-            m_velocity.y /= length;
-            m_position.x += m_velocity.x * (m_speed * timeDelta);
-            m_position.y += m_velocity.y * (m_speed * timeDelta);
+
+            // Calculate horizontal movement.
+            if (CausesCollision(sf::Vector2f(m_velocity.x, 0.0f), level))
+            {
+                m_position.x = previousPosition.x;
+            }
+            else
+            {
+                m_velocity.x /= length;
+                m_position.x += m_velocity.x * (m_speed * timeDelta);
+            }
+
+            // Calculate horizontal movement.
+            if (CausesCollision(sf::Vector2f(0.0f, m_velocity.y), level))
+            {
+                m_position.y = previousPosition.y;
+            }
+            else
+            {
+                m_velocity.y /= length;
+                m_position.y += m_velocity.y * (m_speed * timeDelta);
+            }
 
             m_sprite.setPosition(m_position);
         }

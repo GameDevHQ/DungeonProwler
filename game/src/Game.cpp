@@ -486,7 +486,7 @@ void Game::Update(float timeDelta)
             UpdateLight(playerPosition);
 
             // Update all enemies.
-            UpdateEnemies(playerPosition, timeDelta);
+            UpdateEnemies(playerPosition, timeDelta, m_level);
 
             // Update all projectiles.
             UpdateProjectiles(timeDelta);
@@ -504,7 +504,7 @@ void Game::Update(float timeDelta)
                 // Update path finding for all enemies if within range of the player.
                 for (const auto& enemy : m_enemies)
                 {
-                    if (DistanceBetweenPoints(enemy->GetPosition(), playerPosition) < 150.f)
+                    if (DistanceBetweenPoints(enemy->GetPosition(), playerPosition) < 200.f)
                     {
                         enemy->UpdatePathfinding(m_level, playerPosition);
                     }
@@ -725,7 +725,7 @@ void Game::UpdateItems(sf::Vector2f playerPosition)
 }
 
 // Updates all enemies in the level.
-void Game::UpdateEnemies(sf::Vector2f playerPosition, float timeDelta)
+void Game::UpdateEnemies(sf::Vector2f playerPosition, float timeDelta, Level &level)
 {
     // Store player tile.
     Tile* playerTile = m_level.GetTile(m_player.GetPosition());
@@ -819,7 +819,7 @@ void Game::UpdateEnemies(sf::Vector2f playerPosition, float timeDelta)
         // If the enemy was not deleted, update it and increment the iterator.
         if (!enemyWasDeleted)
         {
-            enemy.Update(timeDelta);
+            enemy.Update(timeDelta, level);
             ++enemyIterator;
         }
 

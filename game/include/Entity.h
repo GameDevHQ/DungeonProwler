@@ -12,6 +12,7 @@
 #define ENTITY_H
 
 #include "Object.h"
+#include "Level.h"
 
 class Entity : public Object
 {
@@ -99,6 +100,14 @@ public:
 	 * @param staminaValue The player's new stamina stat value.
 	 */
 	void SetStamina(int staminaValue);
+protected:
+    /**
+     * Checks if the given movement will result in a collision.
+     * @param movement The movement to check.
+     * @param level A reference to the level object.
+     * @return True if the given movement will result in a collision.
+     */
+    bool CausesCollision(sf::Vector2f movement, Level& level);
 protected:
 	/**
 	 * A vector of all texture IDs.

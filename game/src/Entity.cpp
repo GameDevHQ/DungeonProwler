@@ -156,3 +156,34 @@ void Entity::SetStamina(int staminaValue)
 {
 	m_stamina = staminaValue;
 }
+
+
+// Checks is the given movement will result in a collision.
+bool Entity::CausesCollision(sf::Vector2f movement, Level& level)
+{
+    // Get the tiles that the four corners other player are overlapping with.
+    Tile* overlappingTiles[4];
+    sf::Vector2f newPosition = m_position + movement;
+
+    // Top left.
+    overlappingTiles[0] = level.GetTile(sf::Vector2f(newPosition.x - 14.f, newPosition.y - 14.f));
+
+    // Top right.
+    overlappingTiles[1] = level.GetTile(sf::Vector2f(newPosition.x + 14.f, newPosition.y - 14.f));
+
+    // Bottom left.
+    overlappingTiles[2] = level.GetTile(sf::Vector2f(newPosition.x - 14.f, newPosition.y + 14.f));
+
+    // Bottom right.
+    overlappingTiles[3] = level.GetTile(sf::Vector2f(newPosition.x + 14.f, newPosition.y + 14.f));
+
+    // If any of the overlapping tiles are solid there was a collision.
+    for (int i = 0; i < 4; i++)
+    {
+        if (level.IsSolid(overlappingTiles[i]->columnIndex, overlappingTiles[i]->rowIndex))
+            return true;
+    }
+
+    // If we've not returned yet no collisions were found.
+    return false;
+}

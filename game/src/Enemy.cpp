@@ -3,12 +3,6 @@
 #include "Enemy.h"
 
 
-/*
- * TODO: Добавить столкновение со стенками для врагов как у игрока (см. CausesCollision)
- * TODO: При рассчете A* просчитать дистанцию Манхеттена между игроков и врагом. Если больше порога
- *       некоторого, то останавливаем поиск + сбрасываем анимацию
- */
-
 // Default constructor.
 Enemy::Enemy()
 {
@@ -68,6 +62,11 @@ void Enemy::Update(float timeDelta, Level &level)
 
             m_sprite.setPosition(m_position);
         }
+    }
+    else
+    {
+        m_velocity.x = 0.f;
+        m_velocity.y = 0.f;
     }
 
     Entity::Update(timeDelta);

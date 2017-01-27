@@ -401,3 +401,75 @@ void Level::ResetNodes()
         }
     }
 }
+
+// Generates a random level.
+void Level::GenerateLevel()
+{
+    // Step 1: Create the initial grid pattern.
+    for (int i = 0; i < GRID_WIDTH; ++i)
+    {
+        for (int j = 0; j < GRID_HEIGHT; ++j)
+        {
+            if ((i % 2 != 0) && (j % 2 != 0))
+            {
+                // Odd tiles, nothing.
+                m_grid[i][j].type = TILE::EMPTY;
+            }
+            else
+            {
+                m_grid[i][j].type = TILE::WALL_TOP;
+                m_grid[i][j].sprite.setTexture(TextureManager::GetTexture(m_textureIDs[static_cast<int>(TILE::WALL_TOP)]));
+            }
+
+            // Set the position.
+            m_grid[i][j].sprite.setPosition(m_origin.x + (TILE_SIZE * i), m_origin.y + (TILE_SIZE * j));
+        }
+    }
+
+    CreatePath(1, 1);
+}
+
+//
+void Level::CreatePath(int columnIndex, int rowIndex)
+{
+    // Store the current tile.
+    Tile* currentTile = &m_grid[columnIndex][rowIndex];
+
+    // Create a list of possible directions and sort randomly.
+    sf::Vector2i directions[] = {{ 0, -2 }, { 2, 0 }, { 0, 2 }, { -2, 0 }};
+    std::random_shuffle(std::begin(directions), std::end(directions));
+
+    // For each direction.
+    for (int i = 0; i < 4; i++)
+    {
+        // Get the new tile position.
+        int dx = currentTile->columnIndex + directions[i].x;
+        int dy = currentTile->rowIndex + directions[i].y;
+
+        // If the tile is valid.
+        if (TileIsValid(dx, dy))
+        {
+            // Store the tile.
+            Tile* tile = &m_grid[dx][dy];
+
+            // If the tile has not yet been visited.
+            if (tile->type == TILE::EMPTY)
+            {
+                // Mark the tile as floor.
+                tile->type = TILE::FLOOR;
+                tile->sprite.setTexture(TextureManager::GetTexture(m_textureIDs[static_cast<int>(TILE::FLOOR)]));
+
+                // Knock that wall down.
+                int ddx = currentTile->columnIndex + (directions[i].x / 2);
+                int ddy = currentTile->rowIndex + (directions[i].y / 2);
+
+                Tile* wall = &m_grid[ddx][ddy];
+                wall->type = TILE::FLOOR;
+                wall->sprite.setTexture(TextureManager::GetTexture(m_textureIDs[static_cast<int>(TILE::FLOOR)]));
+
+                // Recursively call the function with the new tile.
+                CreatePath(dx, dy);
+            }
+        }
+    }
+}

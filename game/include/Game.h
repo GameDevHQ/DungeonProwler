@@ -160,6 +160,11 @@ private:
      * Generates a level goal.
      */
     void GenerateLevelGoal();
+
+	/**
+     * Generates a game level.
+     */
+	void GenerateLevel();
 private:
 	/**
 	 * The main application window.

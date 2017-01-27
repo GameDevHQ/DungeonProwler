@@ -16,6 +16,7 @@ Features
 - Generating random traits for a player
 - Altering existing sound effects
 - Generating game behavior (AI)
+- Generating a dungeon (mazes and rooms)
 
 Thanks
 ------

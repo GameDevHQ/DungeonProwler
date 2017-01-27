@@ -72,6 +72,8 @@ void Game::Initialize()
     // Initialize the UI.
     LoadUI();
 
+    GenerateLevel();
+
     // Builds the light grid.
     ConstructLightGrid();
 
@@ -80,21 +82,10 @@ void Game::Initialize()
     m_views[static_cast<int>(VIEW::MAIN)].zoom(0.5f);
     m_views[static_cast<int>(VIEW::UI)] = m_window.getDefaultView();
 
-    // Load the level.
-    m_level.LoadLevelFromFile("../resources/data/level_data.txt");
-
-    // Set the position of the player.
-    m_player.SetPosition(sf::Vector2f(m_screenCenter.x + 197.f, m_screenCenter.y + 410.f));
-
-    // Populate level.
-    PopulateLevel();
-
-    // Generate the level goal.
-    GenerateLevelGoal();
-
+    // TODO: Remove later
     // Generate some random FLOOR_ALT tiles on the level.
-    int tiles_count = std::rand() % MAX_FLOOR_ALT_COUNT;
-    SpawnRandomTiles(TILE::FLOOR_ALT, tiles_count);
+    // int tiles_count = std::rand() % MAX_FLOOR_ALT_COUNT;
+    // SpawnRandomTiles(TILE::FLOOR_ALT, tiles_count);
 
     // Load all game sounds.
     int soundBufferId;
@@ -366,7 +357,7 @@ void Game::PopulateLevel()
         if (std::rand() % 2)
         {
             // Choose a random item type.
-            int itemType = std::rand() % static_cast<int>(ITEM::COUNT);
+            int itemType = std::rand() % (static_cast<int>(ITEM::COUNT) - 1);
 
             // Spawn an item in the certain position.
             SpawnItem(static_cast<ITEM>(itemType));
@@ -452,7 +443,17 @@ void Game::Update(float timeDelta)
 
         if (playerTile.type == TILE::WALL_DOOR_UNLOCKED)
         {
-            // ...
+            // Clear all current items.
+            m_items.clear();
+
+            // Clear all current enemies.
+            m_enemies.clear();
+
+            // Generate a new room.
+            GenerateLevel();
+
+            // Set the key as not collected.
+            m_keyUiSprite->setColor(sf::Color(255, 255, 255, 60));
         }
         else
         {
@@ -905,8 +906,9 @@ void Game::Draw(float timeDelta)
 
     case GAME_STATE::PLAYING:
     {
+        // TODO: Restore later
         // Set the main game view.
-        m_window.setView(m_views[static_cast<int>(VIEW::MAIN)]);
+        // m_window.setView(m_views[static_cast<int>(VIEW::MAIN)]);
 
         // Draw the level.
         m_level.Draw(m_window, timeDelta);
@@ -932,11 +934,12 @@ void Game::Draw(float timeDelta)
         // Draw the player.
         m_player.Draw(m_window, timeDelta);
 
+        // TODO: Restore later
         // Draw level light.
-        for (const sf::Sprite& sprite : m_lightGrid)
-        {
-            m_window.draw(sprite);
-        }
+        //for (const sf::Sprite& sprite : m_lightGrid)
+        //{
+        //    m_window.draw(sprite);
+        //}
 
         // Switch to UI view.
         m_window.setView(m_views[static_cast<int>(VIEW::UI)]);
@@ -1199,4 +1202,23 @@ void Game::GenerateLevelGoal()
     // Set the goal as active.
     m_activeGoal = true;
     m_goalString = ss.str();
+}
+
+
+void Game::GenerateLevel()
+{
+    // Generate a new level.
+    m_level.GenerateLevel();
+
+    // Add a key to the level.
+    SpawnItem(ITEM::KEY);
+
+    // Populate the level with items.
+    PopulateLevel();
+
+    // 1 in 3 change of creating a level goal.
+    if (((std::rand() % 3) == 0) && (!m_activeGoal))
+    {
+        GenerateLevelGoal();
+    }
 }

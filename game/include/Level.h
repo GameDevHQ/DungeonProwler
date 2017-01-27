@@ -216,6 +216,11 @@ public:
      * Resets the A* data of all level tiles.
      */
 	void ResetNodes();
+
+    /**
+    * Generates a random level.
+    */
+    void GenerateLevel();
 private:
 
 	/**
@@ -226,6 +231,10 @@ private:
 	 */
 	bool IsWall(int columnIndex, int rowIndex);
 
+    /**
+     * Creates a path between two nodes in the recursive backtracker algorithm.
+     */
+    void CreatePath(int columnIndex, int rowIndex);
 private:
 	/**
 	 * A 2D array that describes the level data.

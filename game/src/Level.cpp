@@ -451,6 +451,10 @@ void Level::GenerateLevel()
 
     // Add entrance and exit tiles to the level.
     GenerateEntryAndExit();
+
+    // Add torches to the level.
+    m_torches.clear();
+    GenerateTorches();
 }
 
 // Generate a randm path to the tile
@@ -497,7 +501,6 @@ void Level::CreatePath(int columnIndex, int rowIndex)
         }
     }
 }
-
 
 // Adds a given number of randomly sized rooms to the level to create some open space.
 void Level::CreateRooms(int roomCount)
@@ -579,7 +582,6 @@ void Level::CalculateTextures()
     }
 }
 
-
 // Set a random color for the level.
 void Level::SetRandomColor()
 {
@@ -588,7 +590,6 @@ void Level::SetRandomColor()
     sf::Uint8 b = std::rand() % 101 + 100;
     SetColor(sf::Color(r, g, b, 255));
 }
-
 
 // Generates an entry and exit point for the given level.
 void Level::GenerateEntryAndExit()
@@ -626,9 +627,37 @@ void Level::GenerateEntryAndExit()
     m_spawnLocation = GetActualTileLocation(startI, GRID_HEIGHT - 2);
 }
 
-
 // Returns the spawn location for the current level.
 sf::Vector2f Level::SpawnLocation()
 {
     return m_spawnLocation;
+}
+
+// Generates an torches for the given level.
+void Level::GenerateTorches()
+{
+    // Get all wall tile positions.
+    std::vector<sf::Vector2f> wall_positions;
+    for (int i = 0; i < GRID_WIDTH; ++i)
+    {
+        for (int j = 0; j < GRID_HEIGHT; ++j)
+        {
+            if (IsWall(i, j))
+            {
+                sf::Vector2f position = GetActualTileLocation(i, j);
+                wall_positions.push_back(position);
+            }
+        }
+    }
+
+    // Set a unique position for each torch.
+    for (int i = 0; i < TORCHES_COUNT; ++i)
+    {
+        unsigned long index = std::rand() % wall_positions.size();
+        sf::Vector2f position(wall_positions[index]);
+
+        std::shared_ptr<Torch> torch = std::make_shared<Torch>();
+        torch->SetPosition(position);
+        m_torches.push_back(torch);
+    }
 }

@@ -20,6 +20,9 @@ static int const GRID_HEIGHT = 25;
 // Room count for procedurally generated level.
 static int const ROOMS_COUNT = 15;
 
+// Torches count per generated level.
+static int const TORCHES_COUNT = 10;
+
 // The width and height of each tile in pixels.
 static int const TILE_SIZE = 50;
 
@@ -245,6 +248,11 @@ public:
      * Returns the spawn location for the current level.
      */
     sf::Vector2f SpawnLocation();
+
+    /**
+     * Generates an torches for the given level.
+     */
+    void GenerateTorches();
 private:
 
 	/**

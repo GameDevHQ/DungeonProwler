@@ -58,6 +58,8 @@ m_doorTileIndices({ 0, 0 })
             cell->rowIndex = j;
         }
     }
+
+    SetRandomColor();
 }
 
 // Create and adds a tile sprite to the list of those available.
@@ -434,9 +436,21 @@ void Level::GenerateLevel()
 
     // Set for each tile the correct texture.
     CalculateTextures();
+
+    // Increment our room/floor count and generate new effect it necessary.
+    m_roomNumber++;
+    if (m_roomNumber == 5)
+    {
+        // Move to next floor.
+        m_roomNumber = 0;
+        m_floorNumber++;
+
+        // Generate a random color and apply it to the level tiles.
+        SetRandomColor();
+    }
 }
 
-//
+// Generate a randm path to the tile
 void Level::CreatePath(int columnIndex, int rowIndex)
 {
     // Store the current tile.
@@ -560,4 +574,13 @@ void Level::CalculateTextures()
             }
         }
     }
+}
+
+
+void Level::SetRandomColor()
+{
+    sf::Uint8 r = std::rand() % 101 + 100;
+    sf::Uint8 g = std::rand() % 101 + 100;
+    sf::Uint8 b = std::rand() % 101 + 100;
+    SetColor(sf::Color(r, g, b, 255));
 }

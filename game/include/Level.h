@@ -226,6 +226,11 @@ public:
      * Calculates the correct texture for each tile in the level.
      */
     void CalculateTextures();
+
+    /**
+     * Set a random color for the generated level;
+     */
+    void SetRandomColor();
 private:
 
 	/**

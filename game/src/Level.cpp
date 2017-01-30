@@ -407,7 +407,10 @@ void Level::ResetNodes()
 // Generates a random level.
 void Level::GenerateLevel()
 {
-    // Step 1: Create the initial grid pattern.
+    m_torches.clear();
+    m_reachableTiles.clear();
+    
+    // Create the initial grid pattern.
     for (int i = 0; i < GRID_WIDTH; ++i)
     {
         for (int j = 0; j < GRID_HEIGHT; ++j)
@@ -453,7 +456,6 @@ void Level::GenerateLevel()
     GenerateEntryAndExit();
 
     // Add torches to the level.
-    m_torches.clear();
     GenerateTorches();
 }
 

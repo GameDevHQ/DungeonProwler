@@ -218,9 +218,14 @@ public:
 	void ResetNodes();
 
     /**
-    * Generates a random level.
-    */
+     * Generates a random level.
+     */
     void GenerateLevel();
+
+    /**
+     * Calculates the correct texture for each tile in the level.
+     */
+    void CalculateTextures();
 private:
 
 	/**
@@ -235,6 +240,11 @@ private:
      * Creates a path between two nodes in the recursive backtracker algorithm.
      */
     void CreatePath(int columnIndex, int rowIndex);
+
+    /**
+     * Adds a given number of randomly sized rooms to the level to create some open space.
+     */
+    void CreateRooms(int roomCount);
 private:
 	/**
 	 * A 2D array that describes the level data.

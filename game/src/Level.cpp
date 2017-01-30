@@ -426,7 +426,14 @@ void Level::GenerateLevel()
         }
     }
 
+    // Generate passages
     CreatePath(1, 1);
+
+    // Add some rooms to the level to create some open space.
+    CreateRooms(10);
+
+    // Set for each tile the correct texture.
+    CalculateTextures();
 }
 
 //
@@ -469,6 +476,87 @@ void Level::CreatePath(int columnIndex, int rowIndex)
 
                 // Recursively call the function with the new tile.
                 CreatePath(dx, dy);
+            }
+        }
+    }
+}
+
+
+// Adds a given number of randomly sized rooms to the level to create some open space.
+void Level::CreateRooms(int roomCount)
+{
+    for (int i = 0; i < roomCount; ++i)
+    {
+        // Generate a room size.
+        int roomWidth = std::rand() % 2 + 1;
+        int roomHeight = std::rand() % 2 + 1;
+
+        // Choose a random starting location.
+        int startI = std::rand() % (GRID_WIDTH - 2) + 1;
+        int startJ = std::rand() % (GRID_HEIGHT - 2) + 1;
+
+        for (int j = -1 ; j < roomHeight; ++j)
+        {
+            for (int z = -1; z < roomWidth; ++z)
+            {
+                int newI = startI + j;
+                int newJ = startJ + z;
+
+                // If passed not corner a tile, then convert it to the floor tile type.
+                if (TileIsValid(startI, startJ)
+                    && (newI != 0) && (newI != (GRID_WIDTH - 1))
+                    && (newJ != 0) && (newJ != (GRID_HEIGHT - 1)))
+                {
+                    m_grid[newI][newJ].type = TILE::FLOOR;
+                    m_grid[newI][newJ].sprite.setTexture(TextureManager::GetTexture(m_textureIDs[static_cast<int>(TILE::FLOOR)]));
+                }
+            }
+        }
+    }
+}
+
+// Calculates the correct texture for each tile in the level.
+void Level::CalculateTextures()
+{
+    for (int i = 0; i < GRID_WIDTH; ++i)
+    {
+        for (int j = 0; j < GRID_HEIGHT; ++j)
+        {
+            // If it is wall, then calculate bit mask and set a corresponding tile.
+            if (IsWall(i, j))
+            {
+                // Calculate bit mask.
+                int value = 0;
+
+                // Store the current type as default.
+                TILE type = m_grid[i][j].type;
+
+                // Top.
+                if (IsWall(i, j - 1))
+                {
+                    value += 1;
+                }
+                // Right.
+                if (IsWall(i + 1, j))
+                {
+                    value += 2;
+                }
+
+                // Bottom.
+                if (IsWall(i, j + 1))
+                {
+                    value += 4;
+                }
+
+                // Left.
+                if (IsWall(i - 1, j))
+                {
+                    value += 8;
+                }
+
+                // Set the new type.
+                m_grid[i][j].type = static_cast<TILE>(value);
+                m_grid[i][j].sprite.setTexture(TextureManager::GetTexture(m_textureIDs[value]));
             }
         }
     }

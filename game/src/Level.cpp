@@ -372,8 +372,8 @@ sf::Vector2f Level::GetRandomSpawnLocation()
     sf::Vector2f tileLocation(m_reachableTiles[index]);
 
     // Create a random offset.
-    tileLocation.x += std::rand() % 21 - 10;
-    tileLocation.y += std::rand() % 21 - 10;
+    tileLocation.x += std::rand() % 15 - 10;
+    tileLocation.y += std::rand() % 15 - 10;
     return tileLocation;
 }
 

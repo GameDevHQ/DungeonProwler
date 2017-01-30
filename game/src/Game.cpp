@@ -72,6 +72,7 @@ void Game::Initialize()
     // Initialize the UI.
     LoadUI();
 
+    // Generate a new level.
     GenerateLevel();
 
     // Builds the light grid.

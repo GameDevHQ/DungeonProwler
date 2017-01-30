@@ -432,7 +432,7 @@ void Level::GenerateLevel()
     CreatePath(1, 1);
 
     // Add some rooms to the level to create some open space.
-    CreateRooms(10);
+    CreateRooms(ROOMS_COUNT);
 
     // Set for each tile the correct texture.
     CalculateTextures();

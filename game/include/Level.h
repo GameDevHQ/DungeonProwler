@@ -14,11 +14,15 @@
 #include "Torch.h"
 
 // Constants for the game grid size.
-static int const GRID_WIDTH = 19;
-static int const GRID_HEIGHT = 19;
+static int const GRID_WIDTH = 25;
+static int const GRID_HEIGHT = 25;
+
+// Room count for procedurally generated level.
+static int const ROOMS_COUNT = 15;
 
 // The width and height of each tile in pixels.
 static int const TILE_SIZE = 50;
+
 
 // The level tile type.
 struct Tile {

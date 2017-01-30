@@ -231,6 +231,11 @@ public:
      * Set a random color for the generated level;
      */
     void SetRandomColor();
+
+    /**
+     * Generates an entry and exit point for the given level.
+     */
+    void GenerateEntryAndExit();
 private:
 
 	/**

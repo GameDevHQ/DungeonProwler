@@ -448,6 +448,9 @@ void Level::GenerateLevel()
         // Generate a random color and apply it to the level tiles.
         SetRandomColor();
     }
+
+    // Add entrance and exit tiles to the level.
+    GenerateEntryAndExit();
 }
 
 // Generate a randm path to the tile
@@ -577,6 +580,7 @@ void Level::CalculateTextures()
 }
 
 
+// Set a random color for the level.
 void Level::SetRandomColor()
 {
     sf::Uint8 r = std::rand() % 101 + 100;
@@ -584,3 +588,36 @@ void Level::SetRandomColor()
     sf::Uint8 b = std::rand() % 101 + 100;
     SetColor(sf::Color(r, g, b, 255));
 }
+
+
+// Generates an entry and exit point for the given level.
+void Level::GenerateEntryAndExit()
+{
+    // Calculates new start and end locations within the level.
+    int startI, endI;
+    startI = endI = -1;
+
+    while (startI == -1)
+    {
+        int index = std::rand() % GRID_WIDTH;
+        if ((m_grid[index][GRID_HEIGHT - 1].type == TILE::WALL_TOP) && (index % 2 == 0))
+        {
+            startI = index;
+        }
+    }
+
+    while (endI == -1)
+    {
+        int index = std::rand() % GRID_HEIGHT + 1;
+        if ((m_grid[index][0].type == TILE::WALL_TOP) && (index % 2 == 0))
+        {
+            endI = index;
+        }
+    }
+
+    // Set the tile textures for the entrance and exit tiles.
+    SetTile(startI, GRID_HEIGHT - 1, TILE::WALL_ENTRANCE);
+    SetTile(endI, 0, TILE::WALL_DOOR_LOCKED);
+}
+
+

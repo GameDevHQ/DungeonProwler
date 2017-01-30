@@ -82,10 +82,9 @@ void Game::Initialize()
     m_views[static_cast<int>(VIEW::MAIN)].zoom(0.5f);
     m_views[static_cast<int>(VIEW::UI)] = m_window.getDefaultView();
 
-    // TODO: Remove later
     // Generate some random FLOOR_ALT tiles on the level.
-    // int tiles_count = std::rand() % MAX_FLOOR_ALT_COUNT;
-    // SpawnRandomTiles(TILE::FLOOR_ALT, tiles_count);
+    int tiles_count = std::rand() % MAX_FLOOR_ALT_COUNT;
+    SpawnRandomTiles(TILE::FLOOR_ALT, tiles_count);
 
     // Load all game sounds.
     int soundBufferId;
@@ -906,9 +905,8 @@ void Game::Draw(float timeDelta)
 
     case GAME_STATE::PLAYING:
     {
-        // TODO: Restore later
         // Set the main game view.
-        // m_window.setView(m_views[static_cast<int>(VIEW::MAIN)]);
+        m_window.setView(m_views[static_cast<int>(VIEW::MAIN)]);
 
         // Draw the level.
         m_level.Draw(m_window, timeDelta);
@@ -934,12 +932,11 @@ void Game::Draw(float timeDelta)
         // Draw the player.
         m_player.Draw(m_window, timeDelta);
 
-        // TODO: Restore later
         // Draw level light.
-        //for (const sf::Sprite& sprite : m_lightGrid)
-        //{
-        //    m_window.draw(sprite);
-        //}
+        for (const sf::Sprite& sprite : m_lightGrid)
+        {
+            m_window.draw(sprite);
+        }
 
         // Switch to UI view.
         m_window.setView(m_views[static_cast<int>(VIEW::UI)]);
@@ -1221,4 +1218,7 @@ void Game::GenerateLevel()
     {
         GenerateLevelGoal();
     }
+
+    // Moves the player to the start.
+    m_player.SetPosition(m_level.SpawnLocation());
 }

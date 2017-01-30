@@ -236,6 +236,11 @@ public:
      * Generates an entry and exit point for the given level.
      */
     void GenerateEntryAndExit();
+
+    /**
+     * Returns the spawn location for the current level.
+     */
+    sf::Vector2f SpawnLocation();
 private:
 
 	/**
@@ -309,5 +314,10 @@ private:
 	 * A vector of all tiles in the level.
 	 */
 	std::vector<std::shared_ptr<Torch>> m_torches;
+
+    /**
+     * The spawn location for the current level.
+     */
+    sf::Vector2f m_spawnLocation;
 };
 #endif

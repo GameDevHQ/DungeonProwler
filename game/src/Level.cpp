@@ -618,6 +618,17 @@ void Level::GenerateEntryAndExit()
     // Set the tile textures for the entrance and exit tiles.
     SetTile(startI, GRID_HEIGHT - 1, TILE::WALL_ENTRANCE);
     SetTile(endI, 0, TILE::WALL_DOOR_LOCKED);
+
+    // Save the location of the exit door.
+    m_doorTileIndices = sf::Vector2i(endI, 0);
+
+    // Calculate the spawn location.
+    m_spawnLocation = GetActualTileLocation(startI, GRID_HEIGHT - 2);
 }
 
 
+// Returns the spawn location for the current level.
+sf::Vector2f Level::SpawnLocation()
+{
+    return m_spawnLocation;
+}

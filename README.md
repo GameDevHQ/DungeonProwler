@@ -11,7 +11,7 @@ Features
 --------
 - Giving objects random sprites
 - Spawning enemies and items at a random location
-- Generating a range of game items
+- Spawning a range of game items (and dropping them from enemies)
 - Choosing a player class, its characteristics and sprites
 - Generating random traits for a player
 - Altering existing sound effects

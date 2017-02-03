@@ -18,6 +18,12 @@ Features
 - Generating game behavior (AI)
 - Generating a dungeon (mazes and rooms)
 
+Screenshots
+-----------
+<p align="center">
+  <img src="https://github.com/GameDevHQ/DungeonProwler/blob/master/screenshots/game.png"/>
+</p>
+
 Thanks
 ------
 - [Eric Skiff](http://ericskiff.com/) for awesome music tracks [by CC Attribution License]

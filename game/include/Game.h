@@ -30,6 +30,7 @@ static int const MAX_ENEMY_SPAWN_COUNT = 30;
 static int const MAX_FLOOR_ALT_COUNT = 80;
 
 static int const AMBIENT_SOUNDS_COUNT = 3;
+static float const GAME_OVER_TEXT_SHIFT = 50.f;
 
 
 class Game

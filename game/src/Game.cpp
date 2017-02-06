@@ -34,13 +34,6 @@ m_activeGoal(false)
 
     // Create the game font.
     m_font.loadFromFile("../resources/fonts/PexicoRegular.otf");
-
-    // Setup the main game music.
-    int trackIndex = (std::rand() % static_cast<int>(MUSIC_TRACK::COUNT)) + 1;
-
-    // Load the music track.
-    m_music.openFromFile("../resources/music/msc_main_track_" + std::to_string(trackIndex) + ".wav");
-    m_music.play();
 }
 
 // Initializes the game.
@@ -86,6 +79,13 @@ void Game::Initialize()
     // Generate some random FLOOR_ALT tiles on the level.
     int tiles_count = std::rand() % MAX_FLOOR_ALT_COUNT;
     SpawnRandomTiles(TILE::FLOOR_ALT, tiles_count);
+
+    // Setup the main game music.
+    int trackIndex = (std::rand() % static_cast<int>(MUSIC_TRACK::COUNT)) + 1;
+
+    // Load the music track.
+    m_music.openFromFile("../resources/music/msc_main_track_" + std::to_string(trackIndex) + ".wav");
+    m_music.play();
 
     // Load all game sounds.
     int soundBufferId;
@@ -402,6 +402,25 @@ void Game::Run()
                 m_window.close();
                 return;
             }
+            else if ((m_gameState == GAME_STATE::GAME_OVER) && (Input::IsKeyPressed(Input::KEY::KEY_SPACE)))
+            {
+                // Reset all data and re-initialize level.
+                m_string = "";
+                m_scoreTotal = 0 ;
+                m_goldTotal = 0 ;
+                m_projectileTextureID = 0;
+                m_levelWasGenerated = false;
+                m_killGoal = 0;
+                m_goldGoal = 0;
+                m_gemGoal = 0;
+                m_goalString = "";
+                m_activeGoal = false;
+                m_player = Player();
+                m_level = Level(m_window);
+
+                m_gameState = GAME_STATE::PLAYING;
+                Initialize();
+            }
         }
 
         float newTime = m_timestepClock.getElapsedTime().asSeconds();
@@ -537,7 +556,23 @@ void Game::Update(float timeDelta)
     break;
 
     case GAME_STATE::GAME_OVER:
-        // Game over code
+        // Stop all ambient sounds.
+        for (std::shared_ptr<sf::Sound> sound: m_ambientSounds)
+        {
+            sound->stop();
+        }
+        m_ambientSounds.clear();
+        m_fireSound.stop();
+
+        // Stop game music.
+        m_music.stop();
+
+        // Destroy objects.
+        m_uiSprites.clear();
+        m_playerProjectiles.clear();
+        m_lightGrid.clear();
+        m_enemies.clear();
+        m_items.clear();
         break;
     }
 }
@@ -1034,11 +1069,20 @@ void Game::Draw(float timeDelta)
         {
             DrawString(m_goalString, sf::Vector2f(m_window.getSize().x / 2, m_window.getSize().y - 75), 30);
         }
+
+        if (m_player.GetHealth() <= 0)
+        {
+            m_gameState = GAME_STATE::GAME_OVER;
+        }
     }
     break;
 
     case GAME_STATE::GAME_OVER:
-        // Draw game over screen ...
+        std::string game_over_text = "GAME OVER";
+        DrawString(game_over_text, sf::Vector2f(m_screenCenter.x, m_screenCenter.y - GAME_OVER_TEXT_SHIFT), 45);
+
+        std::string start_new_gate_text = "Press <Space> key to start new attempt.";
+        DrawString(start_new_gate_text, sf::Vector2f(m_screenCenter.x, m_screenCenter.y + GAME_OVER_TEXT_SHIFT), 25);
         break;
     }
 
